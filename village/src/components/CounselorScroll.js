@@ -30,40 +30,25 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
+
 export default function SingleLineGridList(props) {
   const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <GridList className={classes.gridList} cols={2.5}>
-        {tileData.map(tile => (
-          <GridListTile id='checkInShow' key={tile.img}>
-            <img src={'https://infinitiliveaboard.com/public/images/Banner-img-23-new.jpg'} alt={tile.title} />
+  const toRender = () => {
+    if (props.myChecks) {
+      return(
+        <GridList className={classes.gridList} cols={2.5}>
+        {props.myChecks.map(check => (
+          <GridListTile id='checkInShow' key={check.student_id}>
+            <img src={'https://churchleaders-eszuskq0bptlfh8awbb.stackpathdns.com/wp-content/uploads/2018/04/4.17.CC.CHILDREN.VBSCheckin.jpg'} alt={check.student_id} />
             <GridListTileBar
-              title={tile.title}
+              title={check.updated_at}
               classes={{
                 root: classes.titleBar,
                 title: classes.title,
               }}
               actionIcon={
-                <IconButton aria-label={`star ${tile.title}`} onClick={(e) => props.handleClick(e, 'checkInShow')}>
+                <IconButton aria-label={`star ${check.student_id}`} onClick={(e) => props.handleClick(e, 'checkInShow', check.id)}>
                   <StarBorderIcon className={classes.title} />
                 </IconButton>
               }
@@ -71,6 +56,13 @@ export default function SingleLineGridList(props) {
           </GridListTile>
         ))}
       </GridList>
+      )
+    }
+  }
+  return (
+    <div className={classes.root}>
+      {toRender()}
     </div>
   );
+            
 }

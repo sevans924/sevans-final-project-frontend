@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function CenteredGrid() {
+export default function CenteredGrid(props) {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     multiline1: 'Type Here',
@@ -24,8 +25,15 @@ export default function CenteredGrid() {
   });
 
   const handleChange = name => event => {
+    event.preventDefault();
       setValues({ ...values, [name]: event.target.value });
     };
+
+ const handleSubmit = event => {
+   event.preventDefault();
+   const string = Object.values(values)
+   props.handleStrategy(string);
+ }
 
 
 
@@ -36,25 +44,14 @@ export default function CenteredGrid() {
           <Paper className={classes.paper}>Let's list some strategies that you can use to help you meet your goal.</Paper>
         </Grid>
       
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
-        </Grid>
+     
         <Grid item xs={4}>
         <TextField
                 id="outlined-multiline-flexible"
-                label="Strategy 1"
+                label="Multiline1"
                 multiline1
                 rowsMax="4"
-                value={values.multiline}
+                value={values.multiline1}
                 onChange={handleChange('multiline1')}
                 className={classes.textField}
                 fullWidth
@@ -65,10 +62,10 @@ export default function CenteredGrid() {
         <Grid item xs={4}>
         <TextField
                 id="outlined-multiline-flexible"
-                label="Strategy 2"
+                label="Multiline2"
                 multiline2
                 rowsMax="4"
-                value={values.multiline}
+                value={values.multiline2}
                 onChange={handleChange('multiline2')}
                 className={classes.textField}
                 fullWidth
@@ -79,16 +76,28 @@ export default function CenteredGrid() {
         <Grid item xs={4}>
         <TextField
                 id="outlined-multiline-flexible"
-                label="Strategy 3"
+                label="Multiline3"
                 multiline3
                 rowsMax="4"
-                value={values.multiline}
+                value={values.multiline3}
                 onChange={handleChange('multiline3')}
                 className={classes.textField}
                 fullWidth
                 margin="normal"
                 variant="outlined"
       />
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>xs=3</Paper>
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>xs=3</Paper>
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>xs=3</Paper>
+        </Grid>
+        <Grid item xs={3}>
+          <Button onClick={handleSubmit}> Submit Strategies </Button>
         </Grid>
       </Grid>
     </div>

@@ -29,6 +29,20 @@ const getCheckIn = () => {
     );
   };
 
+  const getMyChecks = () => {
+    return fetch(`${API_ROOT}/find_my_checks1`).then(res =>
+      res.json()
+    );
+  };
+
+  const getMyStudents = () => {
+    return fetch(`${API_ROOT}/find_my_students1`).then(res =>
+      res.json()
+    );
+  };
+
+
+
 
 const getCurrentUser = () => {
   return fetch(`${API_ROOT}/current_user`,{
@@ -56,6 +70,12 @@ export default {
   },
   checkins:{
     getCheckIn
+  },
+  myChecks:{
+    getMyChecks
+  },
+  myStudents:{
+    getMyStudents
   },
   auth: {
     login,

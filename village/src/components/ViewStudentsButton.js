@@ -25,8 +25,8 @@ export default function MediaCard(props) {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
+          image="https://www.yonjamedia.com/wp-content/uploads/2018/05/senior-coloring-pages-portraits-student-name-coloring-pages-fest-jack-o-lantern-star-printable-of-senior-coloring-pages.jpg"
+          title="Student Avatar"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">

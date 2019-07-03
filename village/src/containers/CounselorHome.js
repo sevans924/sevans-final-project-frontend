@@ -33,27 +33,35 @@ import CHome from '../components/CHome'
     
     export default function CenteredGrid(props) {
       const classes = useStyles();
+      const API_ROOT = `http://localhost:3001/api/v1`;
       const [activeView, setActiveView] = React.useState('cHome');
+      const [oneCheck, setOneCheck] = React.useState('');
 
       const getStepContent = (activeView) => {
 
         switch (activeView) {
           case 'cHome':
-            return <CHome handleClick={handleClick}/>;
+            return <CHome myChecks={props.myChecks} handleClick={handleClick}/>;
           case 'viewStudents':
-            return <ViewStudents handleClick={handleClick}/>;
+            return <ViewStudents myStudents={props.myStudents} handleClick={handleClick}/>;
           case 'newPlan':
-            return <PlanForm studentData={props.studentData} counselorData={props.counselorData} handleClick={handleClick}/>;
+            return <PlanForm studentData={props.myStudents} counselorData={props.counselorData} handleClick={handleClick}/>;
           case 'checkInShow':
-            return <CheckInShow handleClick={handleClick}/>;
+            return <CheckInShow check={oneCheck} handleClick={handleClick}/>;
           default:
             throw new Error('Unknown step');
         }
       }
 
-      const handleClick = (event, string) => {
+      const handleClick = (event, string, id) => {
         event.preventDefault()
         setActiveView(string)
+        fetch(`${API_ROOT}/check_ins/${id}`)
+        .then(res => res.json())
+        .then(check => {
+          setOneCheck(check)
+        })
+      
       }
     
       return (

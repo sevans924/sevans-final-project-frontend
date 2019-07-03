@@ -14,12 +14,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function CenteredGrid() {
+export default function CenteredGrid(props) {
   const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <Grid container spacing={3}>
+
+  const goRender = () => {
+
+    if (props.check) {
+      
+      return(
+        <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>I'm Check in show</Paper>
         </Grid>
@@ -42,6 +46,14 @@ export default function CenteredGrid() {
           <Paper className={classes.paper}>xs=3</Paper>
         </Grid>
       </Grid>
+      )
+    }
+
+  }
+
+  return (
+    <div className={classes.root}>
+      {goRender()}
     </div>
   );
 }

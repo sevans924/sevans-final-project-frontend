@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function SpacingGrid() {
+export default function SpacingGrid(props) {
   const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
 
@@ -117,7 +117,7 @@ export default function SpacingGrid() {
         <Grid container justify="center" spacing={spacing}>
           {emotions.map((emotion, index) => 
             <Grid key={index} item>
-              <EmotionCard emotions={emotion}/>
+              <EmotionCard handleEmotion={props.handleEmotion} emotions={emotion}/>
             </Grid>
             
           )}

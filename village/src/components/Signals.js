@@ -25,40 +25,52 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-export default function AddressForm() {
+export default function AddressForm(props) {
     const classes = useStyles();
     const [values, setValues] = React.useState({
-      multiline: 'Controlled'
+      signal: '',
     });
 
-    const handleChange = name => event => {
-        setValues({ ...values, [name]: event.target.value });
-      };
+    // const handleChange = name => event => {
+    //     setValues({ ...values, [name]: event.target.value });
+    //     props.handleSignal(values.signal);
+    //   };
+
+      const handleInputChange = (event) => {
+        const target = event.target.value;
+        // const value = target.type === 'checkbox' ? target.checked : target.value;
+        // const name = target.name;
+        setValues({ ...values, signal: target });
+        props.handleSignal(values.signal);
+      }
+      
+
+
   return (
     <React.Fragment>
  
         <Typography variant="h6" gutterBottom>
         How does your body feel in this situation?
       </Typography>
-        <Grid item xs={12}>
+        <Grid item xs={12} >
           <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="Great" />}
+            control={<Checkbox color="secondary" name="Great" value="Great" onChange={handleInputChange}/>}
             label="Great"
           />
           <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="Good" />}
+            control={<Checkbox color="secondary" name="Good" value="Good" onChange={handleInputChange}/>}
             label="Good"
           />
           <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="Meh" />}
+            control={<Checkbox color="secondary" name="Meh" value="Meh" onChange={handleInputChange}/>}
             label="Meh"
           />
           <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="Poor" />}
+            control={<Checkbox color="secondary" name="Poor" value="Poor" onChange={handleInputChange}/>}
             label="Poor"
           />
              <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="Rough" />}
+            control={<Checkbox color="secondary" name="Rough" value="Rough" onChange={handleInputChange}/>}
             label="Rough"
           />
     
@@ -67,7 +79,7 @@ export default function AddressForm() {
         Choose all of the emotions that you feel in this situation.
       </Typography>
 
-        <TransferList />
+        <TransferList handleEmotion={props.handleEmotion}/>
     
     </React.Fragment>
   );

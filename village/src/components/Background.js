@@ -35,6 +35,7 @@ export default function AddressForm(props) {
     const handleChange = name => event => {
       setValues({ ...values, [name]: event.target.value });
       props.handleGoal(values.multiline1)
+      props.handleStudentEvent(values.multiline)
     };
 
   return (

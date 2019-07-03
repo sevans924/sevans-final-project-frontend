@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import CounselorScroll from '../components/CounselorScroll'
 import CreateNewPlan from '../components/CreateNewPlan'
 import ViewStudentsButton from '../components/ViewStudentsButton'
+import Typography from '@material-ui/core/Typography';
 
 
     
@@ -28,14 +29,20 @@ import ViewStudentsButton from '../components/ViewStudentsButton'
             
             <Grid container spacing={3}>
             <Grid item xs={6} id='viewStudents'>
-            <ViewStudentsButton handleClick={props.handleClick}/>
+            <ViewStudentsButton myStudents={props.myStudents} handleClick={props.handleClick}/>
                 
             </Grid>
             <Grid item xs={6} id='newPlan'>
             <CreateNewPlan handleClick={props.handleClick}/>
             </Grid>
+            <p/>
+             
+            <Typography gutterBottom variant="h5" component="h2">
+                Recent Check-Ins
+          </Typography>   
+                <p/>
             <Grid item xs={12}>
-                <CounselorScroll checkData={props.checkData} handleClick={props.handleClick}/>
+                <CounselorScroll myChecks={props.myChecks} handleClick={props.handleClick}/>
             </Grid>
 
             </Grid>

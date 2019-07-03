@@ -81,7 +81,7 @@ export default function Checkout(props) {
   const [studentEvent, setStudentEvent] = React.useState('');
 
 
-  const steps = ['User Info', 'Background', 'Signals', 'Strategies',  'Review Plan'];
+const steps = ['User Info', 'Background', 'Signals', 'Strategies',  'Review Plan'];
 
 const handleStudentId = (id) => {
   setStudentId(id);
@@ -109,6 +109,30 @@ const handleStudentEvent = (string) => {
 
 const handleStrategy = (string) => {
   setStrategy(string);
+  console.log(strategy)
+}
+
+const handlePlanSubmit = () => {
+  
+  fetch(`http://localhost:3001/api/v1/check_ins`, {
+    method: "POST", mode: 'cors',
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "http://localhost:3001"
+    },
+    body: JSON.stringify({
+      student_id: student_id, 
+      counselor_id: counselor_id,
+      plan: plan,
+      goal: goal, 
+      signal: signal, 
+      strategy: strategy,
+      emotion: emotion,
+      studentEvent: studentEvent
+    })
+  })
+ handleNext();
 }
 
 const getStepContent = (step) => {
@@ -123,11 +147,22 @@ const getStepContent = (step) => {
     case 3:
       return <Strategies handleStrategy={handleStrategy}/>;
     case 4: 
-      return <Review />;
+      return <Review 
+      goal={goal} 
+      strategy={strategy} 
+      studentEvent={studentEvent} 
+      signal={signal} 
+      emotion={emotion} 
+      handlePlanSubmit={handlePlanSubmit}
+      />;
     default:
       throw new Error('Unknown step');
   }
 }
+
+  const submitPlanClick = () => {
+    activeStep === steps.length - 1 ? handlePlanSubmit() : handleNext()
+  }
   
 
   const handleNext = () => {
@@ -173,9 +208,7 @@ const getStepContent = (step) => {
                 <Typography variant="subtitle1">
                   Please check your student account to review your plan and to create new check-ins.
                 </Typography>
-                <Button onClick={handleHome} className={classes.button}>
-                      Home
-                    </Button>
+                <Button to="/home" renderAs={Button}>Home</Button>
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -189,7 +222,7 @@ const getStepContent = (step) => {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleNext}
+                    onClick={submitPlanClick}
                     className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? 'Submit Plan' : 'Next'}

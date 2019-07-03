@@ -19,7 +19,9 @@ class App extends Component {
     this.state = {
       counselors: "",
       students: "",
-      checkins: ""
+      checkins: "",
+      myStudents: "",
+      myChecks: ""
     }
   }
 
@@ -42,12 +44,21 @@ class App extends Component {
         counselors: counselorData
       })
     })
+    api.myChecks.getMyChecks()
+    .then(CheckData => {
+      this.setState({
+        myChecks: CheckData
+      })
+    })
+    api.myStudents.getMyStudents()
+    .then(studentData => {
+      this.setState({
+        myStudents: studentData
+      })
+    })
+    
   }
-
-   handleHomeClick = (e) => {
-    e.preventDefault()
-
-  }
+ 
 
 
  
@@ -63,7 +74,13 @@ class App extends Component {
           <br/>
           <div id="content" className="ui container">
             {/* <PlanForm students={this.state.students} counselors={this.state.counselors}/> */}
-            <CounselorHome counselorData={this.state.counselors} studentData={this.state.students} checkData={this.state.checkins}/>
+            <Route path="/home" render={routerProps => <CounselorHome 
+            counselorData={this.state.counselors} 
+            studentData={this.state.students} 
+            checkData={this.state.checkins} 
+            myStudents={this.state.myStudents}
+            myChecks={this.state.myChecks}
+            />} />
         
             {/* <Switch>
               <Route path="/" render={routerProps =>  <SignIn handleLogin={this.handleLogin} history={routerProps.history}  />} />

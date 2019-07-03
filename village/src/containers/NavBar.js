@@ -11,6 +11,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import { NavLink, Link } from "react-router-dom"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,8 +56,11 @@ export default function MenuAppBar() {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />
           </IconButton>
+          
           <Typography variant="h6" className={classes.title}>
-            Home
+          <NavLink to='/home' className={classes.link}>
+             Home
+          </NavLink>
           </Typography>
           {auth && (
             <div>

@@ -22,8 +22,16 @@ const useStyles = makeStyles({
 
 
 export default function MediaCard(props) {
-   
-  const classes = useStyles();
+const classes = useStyles();
+const [values, setValues] = React.useState({
+  emotions: []
+});
+
+const handleInputChange = (event) => {
+  const target = event.target.value;
+  setValues({ ...values, emotions: [...values.emotions, target] });
+  props.handleEmotion(values.emotions);
+}
 
   return (
     <Card className={classes.card}>
@@ -33,7 +41,7 @@ export default function MediaCard(props) {
           <Typography variant="body2" color="textSecondary" component="p">
             {props.emotions.map(emotion => 
                  <FormControlLabel
-                 control={<Checkbox color="secondary" name="saveAddress" value={emotion} />}
+                 control={<Checkbox color="secondary" name='emotions' value={emotion} onChange={handleInputChange} />}
                  label={emotion}
                />)}
           </Typography>
