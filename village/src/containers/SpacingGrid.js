@@ -35,7 +35,7 @@ export default function SpacingGrid(props) {
         <Grid container justify="center" spacing={spacing}>
           {[0, 1, 2].map(value => (
             <Grid key={value} item>
-              <HomeButton className="homebutton" studentData={props.studentData}/>
+              <HomeButton className="homebutton" checkData={props.checkData}/>
             </Grid>
           ))}
         </Grid>

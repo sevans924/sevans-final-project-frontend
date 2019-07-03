@@ -7,44 +7,39 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles({
   card: {
-    maxWidth: 345,
+    maxWidth: 155,
   },
   media: {
     height: 140,
   },
 });
 
-export default function HomeButton(props) {
+
+
+export default function MediaCard(props) {
+   
   const classes = useStyles();
-
-  function getStudentData(props){
-    if (props.checkData){
-      return props.checkData[0].goal
-    }
-    
-  }
-
 
   return (
     <Card className={classes.card}>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
-        />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-          Goal: {getStudentData(props)}
-          </Typography>
-          <Typography>
-        
+         
+          <Typography variant="body2" color="textSecondary" component="p">
+            {props.emotions.map(emotion => 
+                 <FormControlLabel
+                 control={<Checkbox color="secondary" name="saveAddress" value={emotion} />}
+                 label={emotion}
+               />)}
           </Typography>
         </CardContent>
       </CardActionArea>
+    
     </Card>
   );
 }

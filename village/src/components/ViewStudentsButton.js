@@ -17,19 +17,11 @@ const useStyles = makeStyles({
   },
 });
 
-export default function HomeButton(props) {
+export default function MediaCard(props) {
   const classes = useStyles();
 
-  function getStudentData(props){
-    if (props.checkData){
-      return props.checkData[0].goal
-    }
-    
-  }
-
-
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} id='viewStudents' onClick={(e) => props.handleClick(e, 'viewStudents')}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
@@ -38,13 +30,12 @@ export default function HomeButton(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-          Goal: {getStudentData(props)}
+           View Students
           </Typography>
-          <Typography>
-        
-          </Typography>
+          
         </CardContent>
       </CardActionArea>
+   
     </Card>
   );
 }
