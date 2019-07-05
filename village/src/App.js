@@ -10,6 +10,7 @@ import SignIn from './SignIn'
 import SignUp from './SignUp'
 import CounselorHome from './containers/CounselorHome'
 import PlanForm from './containers/PlanForm'
+import Profile from './components/Profile'
 
 
 class App extends Component {
@@ -21,11 +22,34 @@ class App extends Component {
       students: "",
       checkins: "",
       myStudents: "",
-      myChecks: ""
+      myChecks: "",
+      activeView: "SignIn",
+      auth: {
+        currentUser: "",
+        signedIn: false
+      },
+      newUser: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        myCounselor: ''
+      }
     }
   }
 
   componentDidMount(){
+    const token = localStorage.getItem("token")
+
+    if (token) {
+      api.auth.getCurrentUser()
+      .then(res => this.setState({
+        auth: {
+          currentUser: res
+        }
+      }))
+    }
+
     api.students.getStudents()
     .then(studentData => {
       this.setState({
@@ -58,101 +82,116 @@ class App extends Component {
     })
     
   }
- 
+
+  postNewUser = (values) => {
+    api.newUser.newUser(values)
+    .then(data => console.log(data))
+  }
+
+  handleLogin = () => {
+    this.setState({
+      activeView: 'SignIn'
+    });
+  }
+
+  handleHome = () => {
+    this.setState({
+      activeView: 'Home'
+    });
+  }
+
+  handleSignUp = () => {
+    this.setState({
+      activeView: 'SignUp'
+    });
+  }
+
+  handleProfile = () => {
+    this.setState({
+      activeView: 'Profile'
+    });
+  }
+
+  handleLoginSubmit = (username, password) => {
+    api.auth.login(username, password)
+    .then(res => {
+      localStorage.setItem("token",res.jwt)
+      this.setState({
+        activeView: 'Home',
+        auth: {
+          currentUser: res.parent,
+          signedIn: true
+        }
+      })
+    })
+  
+  }
+
+  logout = () => {
+    localStorage.removeItem("token")
+    this.setState({
+      auth: {
+        currentUser: '',
+        signedIn: false
+      }
+    })
+    this.setState({
+      actionView: 'SignIn'
+    })
+  }
+
+    
+
+  getStepContent = (activeView) => {
+
+    switch (activeView) {
+      case 'Home':
+        return <CounselorHome 
+        counselorData={this.state.counselors} 
+        studentData={this.state.students} 
+        checkData={this.state.checkins} 
+        myStudents={this.state.myStudents}
+        myChecks={this.state.myChecks}
+        />
+      case 'SignIn':
+        return <SignIn handleSignUp={this.handleSignUp} handleLoginSubmit={this.handleLoginSubmit}/>;
+      case 'SignUp':
+        return <SignUp handleLogin={this.handleLogin} counselors={this.state.counselors} handleNewUser={this.postNewUser}/>;
+      case 'Profile':
+        return <Profile />;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
 
 
  
 
     render(){
+
+
       return (
         <div className="App">
           <NavBar
-            // currentUser={this.state.auth.currentUser}
-            // logout = {this.logout}
+          currentUser={this.state.auth.currentUser}
+          signedIn={this.state.auth.signedIn}
+          handleLogin={this.handleLogin}
+          handleProfile={this.handleProfile} 
+          handleHome={this.handleHome}
+            logout = {this.logout}
           />
           <br/> 
           <br/>
           <div id="content" className="ui container">
-            {/* <PlanForm students={this.state.students} counselors={this.state.counselors}/> */}
-            <Route path="/home" render={routerProps => <CounselorHome 
-            counselorData={this.state.counselors} 
-            studentData={this.state.students} 
-            checkData={this.state.checkins} 
-            myStudents={this.state.myStudents}
-            myChecks={this.state.myChecks}
-            />} />
-        
-            {/* <Switch>
-              <Route path="/" render={routerProps =>  <SignIn handleLogin={this.handleLogin} history={routerProps.history}  />} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/home" component={StudentHome} />
-            
-            </Switch> */}
-          
+          {this.getStepContent(this.state.activeView)}
           </div>
         </div>
       );
+    
+      
     }
 
   
-
-// render() {
-//   return (
-//     <div className="App">
-//       <NavBar />
-//       <SignUp />
-//       <SignIn />
-//       <StudentHome checkData={this.state.checkins}/>
-//     </div>
-//   );
-// }
-
-// //////////////////////////////////////////////////////////////////////use code below for authentication
-
-
-
-     // state = {
-    //   auth: {
-    //     currentUser: ""
-    //   }
-    // }
-  
-    // componentDidMount(){
-    //   const token = localStorage.getItem("token")
-  
-    //   if (token) {
-    //     api.auth.getCurrentUser()
-    //     .then(res => this.setState({
-    //       auth: {
-    //         currentUser: res
-    //       }
-    //     }))
-    //   }
-    // }
-  
-    // logout = () => {
-    //   localStorage.removeItem("token")
-    //   this.setState({
-    //     auth: {
-    //       currentUser: {}
-    //     }
-    //   })
-    // }
-  
-    // handleLogin = (username, password) => {
-    //   api.auth.login(username, password)
-    //   .then(res => {
-    //     localStorage.setItem("token",res.jwt)
-    //     this.setState({
-    //       auth: {
-    //         currentUser: res.user
-    //       }
-    //     })
-    //   })
-  
-  
-    // }
-
 }
 
 export default App;

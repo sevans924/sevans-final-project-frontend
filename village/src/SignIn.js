@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { NavLink, Route } from 'react-router-dom'
+import { getThemeProps } from '@material-ui/styles';
 
 function MadeWithLove() {
   return (
@@ -52,8 +53,26 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
   const classes = useStyles();
+  const [values, setValues] = React.useState({
+    error: false,
+    fields: {
+      username: '',
+      password: ''
+    }
+  })
+
+
+  const handleChange = e => {
+    const newFields = { ...values.fields, [e.target.name]: e.target.value };
+    setValues({ ...values, fields: newFields });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    props.handleLoginSubmit(values.fields.username, values.fields.password)
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -71,11 +90,12 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
             autoFocus
+            onChange={handleChange}
           />
           <TextField
             variant="outlined"
@@ -87,6 +107,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={handleChange}
           />
         
           <Button
@@ -95,13 +116,14 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign In
           </Button>
           <Grid container>
           
             <Grid item>
-            <NavLink to="/signup" activeClassName="sign-in">
+            <NavLink onClick={props.handleSignUp} activeClassName="sign-in">
                 No account? Sign Up!
             </NavLink>
             </Grid>

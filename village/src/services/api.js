@@ -41,6 +41,25 @@ const getCheckIn = () => {
     );
   };
 
+  const newUser = (values) => {
+    return fetch(`${API_ROOT}/students`, {
+      method: "POST", mode: 'cors',
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Access-Control-Allow-Origin": "http://localhost:3001"
+      },
+      body: JSON.stringify({
+        first_name: values.firstName,
+        last_name: values.lastName,
+        email: values.email,
+        counselor_id: values.counselor,
+        password_digest: values.password,
+        username: values.email
+    })
+    }).then(res => res.json())
+  }
+
 
 
 
@@ -52,13 +71,20 @@ const getCurrentUser = () => {
 
 const login = (username, password) => {
   return fetch(`${API_ROOT}/auth`, {
-    method: "POST",
-    headers: headers,
+    method: "POST", mode: 'cors',
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "http://localhost:3001"
+    },
     body: JSON.stringify({username, password})
   }).then(res => res.json())
 }
 
 export default {
+  newUser:{
+    newUser
+  },
   students:{
     getStudents
   },

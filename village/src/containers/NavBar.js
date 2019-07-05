@@ -25,14 +25,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function MenuAppBar() {
+export default function MenuAppBar(props) {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
+  const [auth, setAuth] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  function handleChange(event) {
+  const handleChange = (event) => {
     setAuth(event.target.checked);
+    if (auth){
+      props.handleLogin()
+    } else {
+      props.logout()
+    }
   }
 
   function handleMenu(event) {
@@ -41,6 +46,7 @@ export default function MenuAppBar() {
 
   function handleClose() {
     setAnchorEl(null);
+    props.handleProfile()
   }
 
   return (
@@ -48,7 +54,7 @@ export default function MenuAppBar() {
       <FormGroup>
         <FormControlLabel
           control={<Switch checked={auth} onChange={handleChange} aria-label="LoginSwitch" />}
-          label={auth ? 'Logout' : 'Login'}
+          label={props.signedIn ? 'Logout' : 'Login'}
         />
       </FormGroup>
       <AppBar position="static">
@@ -57,10 +63,10 @@ export default function MenuAppBar() {
             <MenuIcon />
           </IconButton>
           
-          <Typography variant="h6" className={classes.title}>
-          <NavLink to='/home' className={classes.link}>
+          <Typography variant="h6" className={classes.title} onClick={props.handleHome}>
+         
              Home
-          </NavLink>
+         
           </Typography>
           {auth && (
             <div>
