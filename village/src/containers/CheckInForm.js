@@ -10,11 +10,11 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import Background from '../components/Background';
-import Strategies from '../components/Strategies';
-import Review from '../components/Review';
-import Signals from '../components/Signals';
-import SelectStudentCounselor from '../components/SelectStudentCounselor';
+import StudentEvent from '../components/StudentEvent';
+import MyStrategies from '../components/MyStrategies';
+import Reflect from '../components/Reflect';
+import PhysicalSignal from '../components/PhysicalSignal';
+import EmotionalSignal from '../components/EmotionalSignal';
 import { getThemeProps } from '@material-ui/styles';
 
 function MadeWithLove() {
@@ -71,37 +71,29 @@ const useStyles = makeStyles(theme => ({
 export default function Checkout(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [student_id, setStudentId] = React.useState('');
-  const [studentName, setStudentName] = React.useState('');
-  const [counselorName, setCounselorName] = React.useState('');
-  const [counselor_id, setCounselorId] = React.useState('');
-  const [plan, setPlan] = React.useState(true);
-  const [goal, setGoal] = React.useState('');
+  const [student_id, setStudentId] = React.useState(props.student.id);
+  const [counselor_id, setCounselorId] = React.useState(props.student.counselor_id);
+  const [plan, setPlan] = React.useState(false);
+  const [goal, setGoal] = React.useState(props.getGoals);
   const [signal, setSignal] = React.useState('');
-  const [strategy, setStrategy] = React.useState('');
+  const [strategyTried, setStrategyTried] = React.useState('');
   const [emotion, setEmotion] = React.useState('');
   const [studentEvent, setStudentEvent] = React.useState('');
-  const [createdAt, setCreatedAt] = React.useState('');
+  const [signalReflection, setSignalReflection] = React.useState('');
+  const [reflection, setReflection] = React.useState('');
 
 
-const steps = ['User Info', 'Background', 'Signals', 'Strategies',  'Review Plan'];
+const steps = ['Physical Signals', 'Emotional Signals', 'Event', 'Strategies',  'Reflect'];
 
-const handleStudentId = (string, id) => {
-  setStudentId(id);
-  setStudentName(string)
-}
 
-const handleCounselorId = (string, id) => {
-  setCounselorId(id);
-  setCounselorName(string)
-}
 
-const handleGoal = (string) => {
-  setGoal(string);
-}
 
 const handleSignal = (string) => {
   setSignal(string);
+}
+
+const handleSignalReflection = (string) => {
+  setSignalReflection(string);
 }
 
 const handleEmotion = (string) => {
@@ -113,12 +105,14 @@ const handleStudentEvent = (string) => {
 }
 
 const handleStrategy = (string) => {
-  setStrategy(string);
-  console.log(strategy)
+  setStrategyTried(string);
+}
+
+const handleReflect = (string) => {
+  setReflection(string)
 }
 
 const handlePlanSubmit = () => {
-  
   fetch(`http://localhost:3001/api/v1/check_ins`, {
     method: "POST", mode: 'cors',
     headers: {
@@ -132,14 +126,12 @@ const handlePlanSubmit = () => {
       plan: plan,
       goal: goal, 
       signal: signal, 
-      strategy: strategy,
+      strategy: strategyTried,
       emotion: emotion,
-      studentEvent: studentEvent
+      event: studentEvent,
+      reflection: reflection,
+      signal_reflection: signalReflection
     })
-  })
-  .then(resp => resp.json())
-  .then(newPlan => {
-    setCreatedAt(Date.parse(newPlan.created_at))
   })
  handleNext();
 }
@@ -148,32 +140,27 @@ const getStepContent = (step) => {
 
   switch (step) {
     case 0:
-      return <SelectStudentCounselor 
-      handleInput={handleStudentId} 
-      handleCInput={handleCounselorId} 
-      myStudents={props.myStudents} 
+      return <PhysicalSignal  
+      handleSignal={handleSignal} 
+      handleSignalReflection={handleSignalReflection} 
+      students={props.studentData} 
       counselors={props.counselorData}/>
     case 1:
-      return <Background 
-      handleGoal={handleGoal} 
-      handleStudentEvent={handleStudentEvent}/>;
+      return <EmotionalSignal handleEmotion={handleEmotion}  />;
     case 2:
-      return <Signals 
-      handleSignal={handleSignal} 
-      handleEmotion={handleEmotion}/>;
+      return <StudentEvent handleStudentEvent={handleStudentEvent}/>;
     case 3:
-      return <Strategies handleStrategy={handleStrategy}/>;
+      return <MyStrategies 
+      handleStrategy={handleStrategy} 
+      myPlans={props.myPlans}/>;
     case 4: 
-      return <Review 
+      return <Reflect
       goal={goal} 
-      strategy={strategy} 
+      strategy={strategyTried} 
       studentEvent={studentEvent} 
       signal={signal} 
       emotion={emotion} 
-      createdAt={createdAt}
-      handlePlanSubmit={handlePlanSubmit}
-      studentName={studentName}
-      counselorName={counselorName}
+      handleReflect={handleReflect}
       />;
     default:
       throw new Error('Unknown step');
@@ -193,9 +180,7 @@ const getStepContent = (step) => {
     setActiveStep(activeStep - 1);
   };
 
-  const handleHome = () => {
-      console.log('Home!')
-  }
+ 
 
   return (
     <React.Fragment>
@@ -203,14 +188,14 @@ const getStepContent = (step) => {
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Create New Plan
+            Check In!
           </Typography>
         </Toolbar>
       </AppBar>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-            My Plan
+            My Check In
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map(label => (
@@ -226,9 +211,9 @@ const getStepContent = (step) => {
                   That's it!
                 </Typography>
                 <Typography variant="subtitle1">
-                  Please check your student account to review your plan and to create new check-ins.
+                  Please check your student account to review your check-ins.
                 </Typography>
-                <Button to="/home" renderAs={Button}>Home</Button>
+                <Button onClick={props.handleHome} renderAs={Button}>Home</Button>
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -245,7 +230,7 @@ const getStepContent = (step) => {
                     onClick={submitPlanClick}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? 'Submit Plan' : 'Next'}
+                    {activeStep === steps.length - 1 ? 'Submit Check-In' : 'Next'}
                   </Button>
                 </div>
               </React.Fragment>

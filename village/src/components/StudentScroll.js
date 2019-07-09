@@ -5,7 +5,6 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-import tileData from './tileData';
 import CheckIn1 from './image/CheckIn1.jpg'
 import moment from 'moment'
 
@@ -38,14 +37,13 @@ export default function SingleLineGridList(props) {
 
   const toRender = () => {
     if (props.myChecks) {
-      
       return(
         <GridList className={classes.gridList} cols={2.5}>
         {props.myChecks.map((check, index) => (
           <GridListTile id='checkInShow' key={index}>
             <img src={CheckIn1} alt={check.student_id} />
             <GridListTileBar
-              title= {moment(check.created_at).format("ddd MMM DD YYYY")}
+              title={moment(check.created_at).format("ddd MMM DD YYYY")}
               classes={{
                 root: classes.titleBar,
                 title: classes.title,

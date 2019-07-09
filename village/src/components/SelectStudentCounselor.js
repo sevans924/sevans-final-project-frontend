@@ -34,20 +34,22 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function CenteredGrid(props) {
-const [studentData, setStudentData] = React.useState(props.students)
+const [studentData, setStudentData] = React.useState(props.myStudents)
 const [counselorData, setCounselorData] = React.useState(props.counselors)
 
 
 const getStudentProps = (props) => {
-        if (props.students){
-          return props.students
+        if (props.myStudents){
+          return props.myStudents
         }
         
       }
   const classes = useStyles();
   const [values, setValues] = React.useState({
     student: '',
-    counselor: ''
+    counselor: '',
+    studentName: '',
+    counselorName: ''
   });
 
   const inputLabel = React.useRef(null);
@@ -61,10 +63,25 @@ const getStudentProps = (props) => {
       ...oldValues,
       [event.target.name]: event.target.value,
     }));
-    props.handleInput(values.student)
-    props.handleCInput(values.counselor)
+    props.handleInput(values.student, values.studentName)
+    props.handleCInput(values.counselor, values.counselorName)
   }
 
+  const handleStudentClick = (e, string) => {
+    e.preventDefault()
+    setValues(oldValues => ({
+      ...oldValues,
+      studentName: string
+    }));
+  }
+
+  const handleCounselorClick = (e, string) => {
+    e.preventDefault()
+    setValues(oldValues => ({
+      ...oldValues,
+      counselorName: string
+    }));
+  }
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -83,7 +100,7 @@ const getStudentProps = (props) => {
                 >
                {studentData.map((student) => 
               
-                <MenuItem value={student.id}>{student.first_name} {student.last_name}</MenuItem>
+                <MenuItem value={student} onclick={event => handleStudentClick(event, student.first_name)}>{student.first_name} {student.last_name}</MenuItem>
                
                 )}
                 </Select>
@@ -101,7 +118,7 @@ const getStudentProps = (props) => {
                 >
                {counselorData.map((counselor) => 
               
-              <MenuItem value={counselor.id}>{counselor.first_name} {counselor.last_name}</MenuItem>
+              <MenuItem value={counselor} onclick={event => handleCounselorClick(event, counselor.last_name)}>{counselor.first_name} {counselor.last_name}</MenuItem>
              
               )}
                 </Select>

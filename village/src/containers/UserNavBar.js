@@ -27,16 +27,17 @@ const useStyles = makeStyles(theme => ({
 
 export default function MenuAppBar(props) {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(false);
+  const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
     if (auth){
-      props.handleLogin()
+      props.handleLogout()
+      
     } else {
-      props.logout()
+      props.handleLogin()
     }
   }
 
@@ -49,6 +50,10 @@ export default function MenuAppBar(props) {
     props.handleProfile()
   }
 
+  const  handleHome = () => {
+    props.handleHome()
+  }
+
   return (
     <div className={classes.root}>
       <FormGroup>
@@ -59,11 +64,13 @@ export default function MenuAppBar(props) {
       </FormGroup>
       <AppBar position="static">
         <Toolbar>
-       
+          <IconButton edge="start" className={classes.menuButton} onClick={handleHome} color="inherit" aria-label="Menu">
+            Home
+          </IconButton>
           
-          <Typography variant="h6" className={classes.title} onClick={props.handleHome}>
+          <Typography variant="h6" className={classes.title} >
          
-             Welcome! Please Sign In.
+           
          
           </Typography>
           {auth && (

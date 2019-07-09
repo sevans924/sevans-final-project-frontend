@@ -15,8 +15,8 @@ import Typography from '@material-ui/core/Typography';
       },
       paper: {
         padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
+        margin: 'auto',
+        maxWidth: 900,
       },
     }));
 
@@ -26,13 +26,13 @@ import Typography from '@material-ui/core/Typography';
 
   
   return (
-            
+            <Paper className={classes.paper}> 
             <Grid container spacing={3}>
-            <Grid item xs={6} id='viewStudents'>
-            <ViewStudentsButton myStudents={props.myStudents} handleClick={props.handleClick}/>
+            <Grid  item xs={6} id='viewStudents'>
+            <ViewStudentsButton  myStudents={props.myStudents} handleClick={props.handleClick}/>
                 
             </Grid>
-            <Grid item xs={6} id='newPlan'>
+            <Grid  item xs={6} id='newPlan'>
             <CreateNewPlan handleClick={props.handleClick}/>
             </Grid>
             <p/>
@@ -42,10 +42,11 @@ import Typography from '@material-ui/core/Typography';
           </Typography>   
                 <p/>
             <Grid item xs={12}>
-                <CounselorScroll myChecks={props.myChecks} handleClick={props.handleClick}/>
+                <CounselorScroll myChecks={props.myChecks} handleCheckClick={props.handleCheckClick}/>
             </Grid>
 
             </Grid>
+            </Paper>
 
     );
 }

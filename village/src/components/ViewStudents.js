@@ -7,6 +7,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import Students from './image/Students.jpg'
 
 
 const useStyles = makeStyles(theme => ({
@@ -34,19 +35,21 @@ export default function OutlinedTextFields(props) {
 
   const toRender = () => {
     if (props.myStudents) {
+    
       return(
         <GridList className={classes.gridList} cols={2.5}>
         {props.myStudents.map(student => (
-          <GridListTile id='checkInShow' key={student.student_id}>
-            <img src={'https://www.yonjamedia.com/wp-content/uploads/2018/05/senior-coloring-pages-portraits-student-name-coloring-pages-fest-jack-o-lantern-star-printable-of-senior-coloring-pages.jpg'} alt={student.student_id} />
+          <GridListTile id='checkInShow' key={student.id}>
+            <img src={Students} alt={student.id} />
             <GridListTileBar
+              onClick={(e) => props.handleStudentShow('studentShow', student.id)}
               title={student.first_name}
               classes={{
                 root: classes.titleBar,
                 title: classes.title,
               }}
               actionIcon={
-                <IconButton aria-label={`star ${student.student_id}`} onClick={(e) => props.handleClick(e, 'checkInShow')}>
+                <IconButton aria-label={`star ${student.id}`} >
                   <StarBorderIcon className={classes.title} />
                 </IconButton>
               }
@@ -61,7 +64,7 @@ export default function OutlinedTextFields(props) {
 
   return (
     <div className={classes.root}>
-         <form>
+         {/* <form>
         <TextField
         id="outlined-search"
         label="Search field"
@@ -70,7 +73,7 @@ export default function OutlinedTextFields(props) {
         margin="normal"
         variant="outlined"
         />
-        </form>
+        </form> */}
       {toRender()}
     </div>
   );

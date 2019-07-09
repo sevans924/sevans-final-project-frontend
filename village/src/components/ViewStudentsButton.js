@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Students from './image/Students.jpg'
 
 const useStyles = makeStyles({
   card: {
@@ -21,11 +22,11 @@ export default function MediaCard(props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.card} id='viewStudents' onClick={(e) => props.handleClick(e, 'viewStudents')}>
+    <Card className={classes.card} id='viewStudents' onClick={(e) => props.handleClick('viewStudents')}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="https://www.yonjamedia.com/wp-content/uploads/2018/05/senior-coloring-pages-portraits-student-name-coloring-pages-fest-jack-o-lantern-star-printable-of-senior-coloring-pages.jpg"
+          image={Students}
           title="Student Avatar"
         />
         <CardContent>

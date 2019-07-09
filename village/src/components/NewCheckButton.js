@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import NewPlan from './image/NewPlan.jpg'
+import CheckIn1 from './image/CheckIn1.jpg'
 
 const useStyles = makeStyles({
   card: {
@@ -22,16 +22,16 @@ export default function MediaCard(props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.card} onClick={(e) => props.handleClick('newPlan')}>
+    <Card className={classes.card} onClick={(e) => props.handleClick(e, 'CheckIn')}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={NewPlan}
-          title="NewPlan"
+          image={CheckIn1}
+          title="CheckIn"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Create New Plan
+            Check In!
           </Typography>
           
         </CardContent>

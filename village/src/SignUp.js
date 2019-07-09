@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
-  },  
+  },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
@@ -79,48 +79,61 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function SignUp(props) {
-const classes = useStyles();
-const inputLabel = React.useRef(null);
-const [labelWidth, setLabelWidth] = React.useState(0);
-const[selected, setSelected] = React.useState('student')
-const [values, setValues] = React.useState({
-  counselor: false,
-  parent: false,
-  student: false,
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  myCounselor: '',
-  myStudent: '' 
-})
+  const classes = useStyles();
+  const inputLabel = React.useRef(null);
+  const [labelWidth, setLabelWidth] = React.useState(0);
+  const [selected, setSelected] = React.useState('student')
+  const [values, setValues] = React.useState({
+    counselor: false,
+    parent: false,
+    student: false,
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    myCounselor: '',
+    myStudent: ''
+  })
 
-React.useEffect(() => {
-  setLabelWidth(inputLabel.current.offsetWidth);
-}, []);
+  React.useEffect(() => {
+    setLabelWidth(inputLabel.current.offsetWidth);
+  }, []);
 
-function handleSelectChange(event) {
-  setValues(oldValues => ({
-    ...oldValues,
-    [event.target.value]: true,
-  }));
-  setSelected(event.target.value)
-}
+  function handleSelectChange(event) {
+    setValues(oldValues => ({
+      ...oldValues,
+      [event.target.value]: true,
+    }));
+    setSelected(event.target.value)
+  }
 
-const handleChange = name => event => {
-  event.preventDefault();
+  const handleChange = name => event => {
+    event.preventDefault();
     setValues({ ...values, [name]: event.target.value });
   };
 
-const handleSubmit = (e) =>{
+  const handleStudentSubmit = (e) => {
     e.preventDefault()
-    props.handleNewUser(values)
+    props.handleStudentUser(values)
+    props.handleLogin()
+  }
+
+  const handleParentSubmit = (e) => {
+    e.preventDefault()
+    props.handleParentUser(values)
+    // props.postNewStudentParent()
+    props.handleLogin()
+  }
+
+  const handleCounselorSubmit = (e) => {
+    e.preventDefault()
+    props.handleCounselorUser(values)
     props.handleLogin()
   }
 
   // const handleSelectChange = name => event => {
   //   event.preventDefault()
-  
+
   //   setValues({ ...values, [name]: true });
   // }
 
@@ -128,7 +141,7 @@ const handleSubmit = (e) =>{
     switch (selected) {
       case 'student':
         return (
-          
+
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -181,163 +194,199 @@ const handleSubmit = (e) =>{
               />
             </Grid>
             <Grid item xs={12}>
-            <FormControl variant="outlined" className={classes.formControl}>
+              <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel ref={inputLabel} htmlFor="outlined-age-simple">
-                Counselor
+                  Counselor
                 </InputLabel>
                 <Select
-                value={values.myCounselor}
-                onChange={handleChange('myCounselor')}
-                input={<OutlinedInput labelWidth={labelWidth} name="counselor" id="outlined-age-simple" />}
+                  value={values.myCounselor}
+                  onChange={handleChange('myCounselor')}
+                  input={<OutlinedInput labelWidth={labelWidth} name="counselor" id="outlined-age-simple" />}
                 >
-               {props.counselors.map((counselor) => 
-              
-              <MenuItem value={counselor.id}>{counselor.first_name} {counselor.last_name}</MenuItem>
-             
-              )}
+                  {props.counselors.map((counselor) =>
+
+                    <MenuItem value={counselor.id}>{counselor.first_name} {counselor.last_name}</MenuItem>
+
+                  )}
                 </Select>
-            </FormControl>
+              </FormControl>
             </Grid>
-         
-          </Grid>
-        
-          );
-      case 'parent': 
-      return(
-        
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              autoComplete="fname"
-              name="firstName"
-              variant="outlined"
-              required
+            <Button
+              type="submit"
               fullWidth
-              id="firstName"
-              label="First Name"
-              onChange={handleChange('firstName')}
-              autoFocus
-            />
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleStudentSubmit}
+            >
+              Sign Up
+            </Button>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              variant="outlined"
-              required
+
+
+        );
+      case 'parent':
+        return (
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                onChange={handleChange('firstName')}
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                onChange={handleChange('lastName')}
+                autoComplete="lname"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                onChange={handleChange('email')}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={handleChange('password')}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel ref={inputLabel} htmlFor="outlined-age-simple">
+                  Student
+                </InputLabel>
+                <Select
+                  value={values.myStudent}
+                  onChange={handleChange('myStudent')}
+                  input={<OutlinedInput labelWidth={labelWidth} name="student" id="outlined-age-simple" />}
+                >
+                  {props.students.map((student) =>
+
+                    <MenuItem value={student.id}>{student.first_name} {student.last_name}</MenuItem>
+
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Button
+              type="submit"
               fullWidth
-              id="lastName"
-              label="Last Name"
-              name="lastName"
-              onChange={handleChange('lastName')}
-              autoComplete="lname"
-            />
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleParentSubmit}
+            >
+              Sign Up
+      </Button>
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              onChange={handleChange('email')}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handleChange('password')}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="student"
-              label="Student"
-              type="student"
-              id="student"
-              autoComplete="current-password"
-              onChange={handleChange('myStudent')}
-            />
-          </Grid>
-       
-        </Grid>
-        
+
+
         );
       case 'counselor':
-      return (
-       
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              autoComplete="fname"
-              name="firstName"
-              variant="outlined"
-              required
+        return (
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                onChange={handleChange('firstName')}
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                onChange={handleChange('lastName')}
+                autoComplete="lname"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                onChange={handleChange('email')}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={handleChange('password')}
+              />
+            </Grid>
+            <Button
+              type="submit"
               fullWidth
-              id="firstName"
-              label="First Name"
-              onChange={handleChange('firstName')}
-              autoFocus
-            />
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleCounselorSubmit}
+            >
+              Sign Up
+      </Button>
+
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              id="lastName"
-              label="Last Name"
-              name="lastName"
-              onChange={handleChange('lastName')}
-              autoComplete="lname"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              onChange={handleChange('email')}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handleChange('password')}
-            />
-          </Grid>
-       
-        </Grid>
-        
+
+
         );
-        default:
+      default:
         throw new Error('Unknown step');
     }
-    
+
 
   }
-  
+
 
 
 
@@ -351,37 +400,28 @@ const handleSubmit = (e) =>{
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel ref={inputLabel} htmlFor="outlined-age-simple">
-          I am a...
+          <InputLabel ref={inputLabel} htmlFor="outlined-age-simple">
+            I am a...
         </InputLabel>
-        <Select
-          value={selected}
-          onChange={handleSelectChange}
-          input={<OutlinedInput labelWidth={labelWidth} name="identity" id="outlined-age-simple" />}
-        >
-          <MenuItem value="">
-            <em>-Select One-</em>
-          </MenuItem>
-          <MenuItem value={'student'}>Student</MenuItem>
-          <MenuItem value={'parent'}>Parent</MenuItem>
-          <MenuItem value={'counselor'}>Counselor</MenuItem>
-        </Select>
-      </FormControl>
-      <form className={classes.form} noValidate>
-       {renderCorrectForm(selected)}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleSubmit}
+          <Select
+            value={selected}
+            onChange={handleSelectChange}
+            input={<OutlinedInput labelWidth={labelWidth} name="identity" id="outlined-age-simple" />}
           >
-            Sign Up
-          </Button>
+            <MenuItem value="">
+              <em>-Select One-</em>
+            </MenuItem>
+            <MenuItem value={'student'}>Student</MenuItem>
+            <MenuItem value={'parent'}>Parent</MenuItem>
+            <MenuItem value={'counselor'}>Counselor</MenuItem>
+          </Select>
+        </FormControl>
+        <form className={classes.form} noValidate>
+          {renderCorrectForm(selected)}
+
           <Grid container justify="flex-end">
             <Grid item>
               <Link to="https://localhost3000/" onClick={props.handleLogin} activeClassName="sign-in">

@@ -15,8 +15,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import CheckIn1 from './image/CheckIn1.jpg'
-import moment from 'moment'
+import MyPlan from './image/MyPlan.jpg'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -49,30 +48,25 @@ export default function RecipeReviewCard(props) {
     setExpanded(!expanded);
   }
 
- 
-  const checkTime = moment(props.check.created_at).format("ddd MMM DD YYYY")
-  
   return (
-
-
     <Card className={classes.card}>
       <CardHeader
         avatar={
           <Avatar aria-label="Recipe" className={classes.avatar}>
-            Ch
+            P
           </Avatar>
         }
-        title='Check In'
-        subheader={checkTime}
+        title='My Plan'
+        subheader={props.plan.createdAt}
       />
       <CardMedia
         className={classes.media}
-        image={CheckIn1}
-        title="CheckIn"
+        image={MyPlan}
+        title="MyPlan"
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          Goal: {props.check.goal}
+          Goal: {props.plan.goal}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -91,40 +85,20 @@ export default function RecipeReviewCard(props) {
         <CardContent>
           <Typography paragraph>Description:</Typography>
           <Typography paragraph>
-            {props.check.event}
+            {props.plan.studentEvent}
           </Typography>
           <Typography paragraph>
-            My Emotions: 
+            My Emotions: {props.plan.emotion}
           </Typography>
           <Typography paragraph>
-           {props.check.emotion}
-          </Typography>
-          <Typography paragraph>
-            My Physical Signals: 
-          </Typography>
-          <Typography paragraph>
-            {props.check.signal}
+            My Physical Signals: {props.plan.signal}
           </Typography>
           <Typography>
-            My Physical Reflection: 
-          </Typography>
-          <Typography>
-            {props.check.signal_reflection}
-          </Typography>
-          <Typography>
-            My Strategies: 
-          </Typography>
-          <Typography>
-            {props.check.strategy}
-          </Typography>
-          <Typography>
-            My Reflection:
-          </Typography>
-          <Typography>
-          {props.check.reflection}
+            My Strategies: {props.plan.strategy}
           </Typography>
         </CardContent>
       </Collapse>
     </Card>
   );
 }
+

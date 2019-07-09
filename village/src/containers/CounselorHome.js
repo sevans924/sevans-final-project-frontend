@@ -15,8 +15,7 @@ import CheckInShow from '../components/CheckInShow'
 import CHome from '../components/CHome'
 
 
- 
-// class CounselorHome extends Component {
+
 
 
     
@@ -71,18 +70,3 @@ import CHome from '../components/CHome'
   );
 }
   
-
-//   render() {
-//       return(
-//         <div className="CounselorHome">
-//          <br/>
-//          <br/>
-
-//          <CounselorScroll checkData={this.props.checkData}/>
-        
-      
-//       </div>
-//       )
-//   }
-// }
-// export default CounselorHome

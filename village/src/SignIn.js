@@ -123,7 +123,7 @@ export default function SignIn(props) {
           <Grid container>
           
             <Grid item>
-            <NavLink onClick={props.handleSignUp} activeClassName="sign-in">
+            <NavLink onClick={props.handleSignUp} activeClassName="sign-up">
                 No account? Sign Up!
             </NavLink>
             </Grid>

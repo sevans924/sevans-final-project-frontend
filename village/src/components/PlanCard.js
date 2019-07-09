@@ -1,53 +1,104 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import { red } from '@material-ui/core/colors';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MyPlan from './image/MyPlan.jpg'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   card: {
-    minWidth: 275,
+    maxWidth: 345,
   },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
   },
-  title: {
-    fontSize: 14,
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
   },
-  pos: {
-    marginBottom: 12,
+  expandOpen: {
+    transform: 'rotate(180deg)',
   },
-});
+  avatar: {
+    backgroundColor: red[500],
+  },
+}));
 
-export default function SimpleCard({ goal, signal, studentEvent, emotion, strategy }) {
+export default function RecipeReviewCard({ goal, signal, studentEvent, emotion, strategy, createdAt, studentName, counselorName }) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+  const [expanded, setExpanded] = React.useState(false);
+
+  function handleExpandClick() {
+    setExpanded(!expanded);
+  }
 
   return (
     <Card className={classes.card}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="Recipe" className={classes.avatar}>
+            P
+          </Avatar>
+        }
+        title='New Plan'
+        subheader={createdAt}
+      />
+      <CardMedia
+        className={classes.media}
+        image={MyPlan}
+        title="MyPlan"
+      />
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          My Plan
-        </Typography>
-        <Typography variant="h5" component="h2"> 
-          Goal: {goal}
-
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-            Scenario: {studentEvent}
-        </Typography>
-        <Typography variant="body2" component="p">
-          Physical Signals: {signal}
-          <br />
-          Emotional Signals: {emotion}
-          <br />
-          Strategies: {strategy}
+        <Typography variant="body2" color="textSecondary" component="p">
+          {goal}
         </Typography>
       </CardContent>
+      <CardActions disableSpacing>
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded,
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="Show more"
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>Description:</Typography>
+          <Typography paragraph>
+            {studentEvent}
+          </Typography>
+          <Typography paragraph>
+            {emotion}
+          </Typography>
+          <Typography paragraph>
+            {signal}
+          </Typography>
+          <Typography>
+            {strategy}
+          </Typography>
+        </CardContent>
+      </Collapse>
     </Card>
   );
 }
+
