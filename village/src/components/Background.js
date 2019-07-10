@@ -32,11 +32,19 @@ export default function AddressForm(props) {
       multiline1: 'Type Here'
     });
 
-    const handleChange = name => event => {
+    const handleGoalChange = name => event => {
       setValues({ ...values, [name]: event.target.value });
-      props.handleGoal(values.multiline1)
-      props.handleStudentEvent(values.multiline)
+      props.handleGoal(event.target.value)
+      
     };
+
+    const handleDescriptionChange = name => event => {
+      setValues({ ...values, [name]: event.target.value });
+      props.handleStudentEvent(event.target.value)
+      
+    };
+
+    
 
   return (
     <React.Fragment>
@@ -53,7 +61,7 @@ export default function AddressForm(props) {
                 multiline
                 rowsMax="4"
                 value={values.multiline}
-                onChange={handleChange('multiline')}
+                onChange={handleDescriptionChange('multiline')}
                 className={classes.textField}
                 fullWidth
                 margin="normal"
@@ -70,7 +78,7 @@ export default function AddressForm(props) {
                 multiline1
                 rowsMax="4"
                 value={values.multiline1}
-                onChange={handleChange('multiline1')}
+                onChange={handleGoalChange('multiline1')}
                 className={classes.textField}
                 fullWidth
                 margin="normal"

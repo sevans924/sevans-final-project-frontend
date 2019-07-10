@@ -33,7 +33,7 @@ export default function AddressForm(props) {
 
     const handleChange = name => event => {
       setValues({ ...values, [name]: event.target.value });
-      props.handleReflect(values.multiline)
+      props.handleReflect(event.target.value)
     };
 
   return (
@@ -42,7 +42,7 @@ export default function AddressForm(props) {
       <Grid container spacing={3}>
        
         <Typography variant="h6" gutterBottom>
-        You chose: {props.strategy}
+        You chose: {props.strategy.toUpperCase()}
       </Typography>
       <Typography variant="h6" gutterBottom>
         Take some time to try your stratgey. Once your finished, come back and reflect on how it went below. Remember, it's okay if it didn't work this time. You can still go ahead a write down what happened.

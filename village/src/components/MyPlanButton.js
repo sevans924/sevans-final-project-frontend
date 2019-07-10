@@ -22,7 +22,7 @@ export default function MediaCard(props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.card} onClick={(e) => props.handleClick( 'MyPlans')}>
+    <Card className={classes.card} onClick={(e) => props.handleClick('MyPlans')}>
       <CardActionArea>
         <CardMedia
           className={classes.media}

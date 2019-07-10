@@ -38,23 +38,21 @@ export default function SingleLineGridList(props) {
 
   const toRender = () => {
     if (props.myChecks) {
+     
       
       return(
         <GridList className={classes.gridList} cols={2.5}>
         {props.myChecks.map((check, index) => (
-          <GridListTile id='checkInShow' key={index}>
+          <GridListTile onClick={(e) => props.handleCheckClick(e, 'checkInShow', check.id)} id='checkInShow' key={index}>
             <img src={CheckIn1} alt={check.student_id} />
             <GridListTileBar
+            onClick={(e) => props.handleCheckClick(e, 'checkInShow', check.id)}
               title= {moment(check.created_at).format("ddd MMM DD YYYY")}
               classes={{
                 root: classes.titleBar,
                 title: classes.title,
               }}
-              actionIcon={
-                <IconButton aria-label={`star ${check.student_id}`} onClick={(e) => props.handleCheckClick(e, 'checkInShow', check.id)}>
-                  <StarBorderIcon className={classes.title} />
-                </IconButton>
-              }
+            
             />
           </GridListTile>
         ))}

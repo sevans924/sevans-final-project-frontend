@@ -35,20 +35,20 @@ class StudentApp extends Component {
   componentDidMount() {
     const token = localStorage.getItem("token")
 
-    // if (token) {
-    //   api.auth.getCurrentUser()
-    //     .then(res => this.setState({
-    //       auth: {
-    //         currentUser: res
-    //       }
-    //     })
-    //     )
-    // }
+    if (token) {
+      api.auth.getCurrentUser()
+        .then(res => this.setState({
+          auth: {
+            currentUser: res
+          }
+        })
+        )
+    }
     
       api.myCounselor.getMyCounselor(this.props.userData.id)
           .then(counselorData => {
               this.setState({
-                  myCounselor: counselorData
+                  myCounselor: counselorData[0]
               })
           })
   
@@ -69,8 +69,18 @@ class StudentApp extends Component {
   
   }
 
+  handleNewCheck = () => {
+    api.myChecks.getMyChecks(this.props.userData.id)
+          .then(CheckData => {
+              this.setState({
+                  myChecks: CheckData
+              })
+          })
+  }
+
 
   handleHome = () => {
+    this.handleNewCheck()
     this.setState({
       activeView: 'Home'
     });
@@ -84,8 +94,7 @@ class StudentApp extends Component {
     });
   }
 
-  handleClick = (event, string) => {
-    event.preventDefault()
+  handleClick = (string) => {
     this.setState({
       activeView: string
     })
@@ -131,7 +140,9 @@ class StudentApp extends Component {
         student={this.state.auth.currentUser} 
         goals={this.getGoals} 
         myPlans={this.state.myPlans}
-        handleHome={this.handleHome}/>
+        handleHome={this.handleHome}
+        myCounselor={this.state.myCounselor}
+        handleNewCheck={this.handleNewCheck}/>
       case 'MyPlans':
         return <MyPlans myPlans={this.state.myPlans}/>
       case 'Profile':

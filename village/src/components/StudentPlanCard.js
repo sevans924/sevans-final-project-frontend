@@ -56,7 +56,7 @@ export default function RecipeReviewCard(props) {
             P
           </Avatar>
         }
-        title='My Plan'
+        title='New Plan'
         subheader={props.plan.createdAt}
       />
       <CardMedia
@@ -65,8 +65,11 @@ export default function RecipeReviewCard(props) {
         title="MyPlan"
       />
       <CardContent>
+      <Typography variant="body2" color="textSecondary" component="p">
+          Goal:
+        </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          Goal: {props.plan.goal}
+          {props.plan.goal}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -83,22 +86,103 @@ export default function RecipeReviewCard(props) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Description:</Typography>
+          <Typography paragraph>
+            Description:
+            </Typography>
           <Typography paragraph>
             {props.plan.studentEvent}
           </Typography>
           <Typography paragraph>
-            My Emotions: {props.plan.emotion}
+            My Emotions:
+          </Typography>
+          {props.plan.emotion.split().map((emo, index) => {
+            return(
+             <Typography paragraph>
+            {index + 1}.) {emo}
+           </Typography>
+            )
+          })}
+         <br/>
+          <Typography paragraph>
+            My body feels:
           </Typography>
           <Typography paragraph>
-            My Physical Signals: {props.plan.signal}
+            {props.plan.signal}
           </Typography>
-          <Typography>
-            My Strategies: {props.plan.strategy}
+          <Typography paragraph>
+            My Strategies:
           </Typography>
+          {props.plan.strategy.split().map((strat, index) => {
+            return(
+             <Typography>
+            {index + 1}.) {strat}
+           </Typography>
+            )
+          })}
         </CardContent>
       </Collapse>
     </Card>
   );
+
+  // return (
+  //   <Card className={classes.card}>
+  //     <CardHeader
+  //       avatar={
+  //         <Avatar aria-label="Recipe" className={classes.avatar}>
+  //           P
+  //         </Avatar>
+  //       }
+  //       title='My Plan'
+  //       subheader={props.plan.createdAt}
+  //     />
+  //     <CardMedia
+  //       className={classes.media}
+  //       image={MyPlan}
+  //       title="MyPlan"
+  //     />
+  //     <CardContent>
+  //       <Typography variant="body2" color="textSecondary" component="p">
+  //         Goal: {props.plan.goal}
+  //       </Typography>
+  //     </CardContent>
+  //     <CardActions disableSpacing>
+  //       <IconButton
+  //         className={clsx(classes.expand, {
+  //           [classes.expandOpen]: expanded,
+  //         })}
+  //         onClick={handleExpandClick}
+  //         aria-expanded={expanded}
+  //         aria-label="Show more"
+  //       >
+  //         <ExpandMoreIcon />
+  //       </IconButton>
+  //     </CardActions>
+  //     <Collapse in={expanded} timeout="auto" unmountOnExit>
+  //       <CardContent>
+  //         <Typography paragraph>Description:</Typography>
+  //         <Typography paragraph>
+  //           {props.plan.studentEvent}
+  //         </Typography>
+  //         <Typography paragraph>
+  //           My Emotions: {props.plan.emotion}
+  //         </Typography>
+  //         <Typography paragraph>
+  //           My Physical Signals: {props.plan.signal}
+  //         </Typography>
+  //         <Typography>
+  //           My Strategies: {props.plan.strategy}
+  //         </Typography>
+  //       </CardContent>
+  //     </Collapse>
+  //   </Card>
+  // );
+
+  
 }
+
+
+
+
+
+
 

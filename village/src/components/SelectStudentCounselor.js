@@ -58,14 +58,28 @@ const getStudentProps = (props) => {
     setLabelWidth(inputLabel.current.offsetWidth);
   }, []);
 
-  const handleChange = (event) => {
+ const handleStudentChange = (event) => {
     setValues(oldValues => ({
       ...oldValues,
       [event.target.name]: event.target.value,
     }));
-    props.handleInput(values.student, values.studentName)
-    props.handleCInput(values.counselor, values.counselorName)
+    
+  
+    props.handleInput(event.target.value.first_name, event.target.value.id)
+
   }
+
+  const handleCounselorChange = (event) => {
+    setValues(oldValues => ({
+      ...oldValues,
+      [event.target.name]: event.target.value,
+    }));
+    
+    props.handleCInput(event.target.value.last_name, props.userData.id)
+    
+
+  }
+
 
   const handleStudentClick = (e, string) => {
     e.preventDefault()
@@ -95,7 +109,7 @@ const getStudentProps = (props) => {
                 </InputLabel>
                 <Select
                 value={values.student}
-                onChange={handleChange}
+                onChange={(e) => handleStudentChange(e)}
                 input={<OutlinedInput labelWidth={labelWidth} name="student" id="outlined-age-simple" />}
                 >
                {studentData.map((student) => 
@@ -113,14 +127,14 @@ const getStudentProps = (props) => {
                 </InputLabel>
                 <Select
                 value={values.counselor}
-                onChange={handleChange}
+                onChange={(e) => handleCounselorChange(e)}
+                
                 input={<OutlinedInput labelWidth={labelWidth} name="counselor" id="outlined-age-simple" />}
                 >
-               {counselorData.map((counselor) => 
-              
-              <MenuItem value={counselor} onclick={event => handleCounselorClick(event, counselor.last_name)}>{counselor.first_name} {counselor.last_name}</MenuItem>
+               
+              <MenuItem value={props.userData.id} onclick={event => handleCounselorClick(event, props.userData.last_name)}>{props.userData.first_name} {props.userData.last_name}</MenuItem>
              
-              )}
+           
                 </Select>
             </FormControl>
         </Grid>

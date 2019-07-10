@@ -16,6 +16,8 @@ import Reflect from '../components/Reflect';
 import PhysicalSignal from '../components/PhysicalSignal';
 import EmotionalSignal from '../components/EmotionalSignal';
 import { getThemeProps } from '@material-ui/styles';
+import SelectMyPlan from '../components/SelectMyPlan';
+const API_ROOT = `http://localhost:3001/api/v1`;
 
 function MadeWithLove() {
   return (
@@ -72,18 +74,19 @@ export default function Checkout(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [student_id, setStudentId] = React.useState(props.student.id);
-  const [counselor_id, setCounselorId] = React.useState(props.student.counselor_id);
+  const [counselor_id, setCounselorId] = React.useState(props.myCounselor.id);
   const [plan, setPlan] = React.useState(false);
+  const [myPlan, setMyPlan] = React.useState('');
   const [goal, setGoal] = React.useState(props.getGoals);
   const [signal, setSignal] = React.useState('');
-  const [strategyTried, setStrategyTried] = React.useState('');
-  const [emotion, setEmotion] = React.useState('');
+  const [strategyTried, setStrategyTried] = React.useState();
+  const [emotion, setEmotion] = React.useState([]);
   const [studentEvent, setStudentEvent] = React.useState('');
   const [signalReflection, setSignalReflection] = React.useState('');
   const [reflection, setReflection] = React.useState('');
 
 
-const steps = ['Physical Signals', 'Emotional Signals', 'Event', 'Strategies',  'Reflect'];
+const steps = ['Plan', 'Body Scan', 'Emotion Scan', 'Event', 'Strategies',  'Reflect'];
 
 
 
@@ -97,7 +100,7 @@ const handleSignalReflection = (string) => {
 }
 
 const handleEmotion = (string) => {
-  setEmotion(string);
+  setEmotion([...emotion, string]);
 }
 
 const handleStudentEvent = (string) => {
@@ -106,11 +109,22 @@ const handleStudentEvent = (string) => {
 
 const handleStrategy = (string) => {
   setStrategyTried(string);
+  
+}
+
+const handleMyPlan = (plan) => {
+  setMyPlan(plan)
+  setGoal(plan.goal)
+  alert('Your plan is set!')
 }
 
 const handleReflect = (string) => {
   setReflection(string)
 }
+
+// const handleGoal = (string) => {
+//   setGoal(string)
+// }
 
 const handlePlanSubmit = () => {
   fetch(`http://localhost:3001/api/v1/check_ins`, {
@@ -127,12 +141,15 @@ const handlePlanSubmit = () => {
       goal: goal, 
       signal: signal, 
       strategy: strategyTried,
-      emotion: emotion,
+      emotion: emotion.join(),
       event: studentEvent,
       reflection: reflection,
       signal_reflection: signalReflection
     })
   })
+  
+ props.handleNewCheck()
+
  handleNext();
 }
 
@@ -140,20 +157,29 @@ const getStepContent = (step) => {
 
   switch (step) {
     case 0:
+      return <SelectMyPlan
+      handleMyPlan={handleMyPlan}
+      myPlans={props.myPlans}
+      />
+    case 1:
       return <PhysicalSignal  
       handleSignal={handleSignal} 
       handleSignalReflection={handleSignalReflection} 
       students={props.studentData} 
       counselors={props.counselorData}/>
-    case 1:
-      return <EmotionalSignal handleEmotion={handleEmotion}  />;
     case 2:
-      return <StudentEvent handleStudentEvent={handleStudentEvent}/>;
+      return <EmotionalSignal handleEmotion={handleEmotion}  />;
     case 3:
+      return <StudentEvent 
+      handleStudentEvent={handleStudentEvent}
+      myPlan={props.myPlan}
+      goal={goal}
+      />;
+    case 4:
       return <MyStrategies 
       handleStrategy={handleStrategy} 
       myPlans={props.myPlans}/>;
-    case 4: 
+    case 5: 
       return <Reflect
       goal={goal} 
       strategy={strategyTried} 
@@ -213,7 +239,9 @@ const getStepContent = (step) => {
                 <Typography variant="subtitle1">
                   Please check your student account to review your check-ins.
                 </Typography>
-                <Button onClick={props.handleHome} renderAs={Button}>Home</Button>
+                <Button onClick={props.handleHome} className={classes.button}>
+                      Home
+                    </Button>
               </React.Fragment>
             ) : (
               <React.Fragment>

@@ -79,7 +79,7 @@ export default function Checkout(props) {
   const [goal, setGoal] = React.useState('');
   const [signal, setSignal] = React.useState('');
   const [strategy, setStrategy] = React.useState('');
-  const [emotion, setEmotion] = React.useState('');
+  const [emotion, setEmotion] = React.useState([]);
   const [studentEvent, setStudentEvent] = React.useState('');
   const [createdAt, setCreatedAt] = React.useState('');
 
@@ -105,7 +105,7 @@ const handleSignal = (string) => {
 }
 
 const handleEmotion = (string) => {
-  setEmotion(string);
+  setEmotion([...emotion, string]);
 }
 
 const handleStudentEvent = (string) => {
@@ -131,9 +131,10 @@ const handlePlanSubmit = () => {
       counselor_id: counselor_id,
       plan: plan,
       goal: goal, 
+      evvent: studentEvent,
       signal: signal, 
-      strategy: strategy,
-      emotion: emotion,
+      strategy: strategy.join(),
+      emotion: emotion.join(),
       studentEvent: studentEvent
     })
   })
@@ -152,7 +153,8 @@ const getStepContent = (step) => {
       handleInput={handleStudentId} 
       handleCInput={handleCounselorId} 
       myStudents={props.myStudents} 
-      counselors={props.counselorData}/>
+      counselors={props.counselorData}
+      userData={props.userData}/>
     case 1:
       return <Background 
       handleGoal={handleGoal} 
@@ -228,7 +230,7 @@ const getStepContent = (step) => {
                 <Typography variant="subtitle1">
                   Please check your student account to review your plan and to create new check-ins.
                 </Typography>
-                <Button to="/home" renderAs={Button}>Home</Button>
+                <Button onClick={() => props.handleClick('Home')} renderAs={Button}>Home</Button>
               </React.Fragment>
             ) : (
               <React.Fragment>

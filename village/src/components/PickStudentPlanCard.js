@@ -16,6 +16,8 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MyPlan from './image/MyPlan.jpg'
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -40,36 +42,40 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function RecipeReviewCard({ goal, signal, studentEvent, emotion, strategy, createdAt, studentName, counselorName }) {
+export default function PickStudentPlanCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
   function handleExpandClick() {
     setExpanded(!expanded);
   }
+  
+  
+
 
   return (
-    <Card className={classes.card}>
+    
+    <Card className={classes.card}  >
+        
       <CardHeader
         avatar={
           <Avatar aria-label="Recipe" className={classes.avatar}>
             P
           </Avatar>
         }
-        title='New Plan'
-        subheader={createdAt}
+        title='My Plan'
+        subheader={props.plan.createdAt}
       />
       <CardMedia
+        onClick={() => props.handleMyPlan(props.plan)}
         className={classes.media}
         image={MyPlan}
         title="MyPlan"
       />
-      <CardContent>
-      <Typography variant="body2" color="textSecondary" component="p">
-          Goal:
-        </Typography>
+      
+      <CardContent onClick={() => props.handleMyPlan(props.plan)}>
         <Typography variant="body2" color="textSecondary" component="p">
-          {goal}
+          Goal: {props.plan.goal}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -85,43 +91,24 @@ export default function RecipeReviewCard({ goal, signal, studentEvent, emotion, 
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
+        <CardContent onClick={() => props.handleMyPlan(props.plan)}>
+          <Typography paragraph>Description:</Typography>
           <Typography paragraph>
-            Description:
-            </Typography>
-          <Typography paragraph>
-            {studentEvent}
+            {props.plan.studentEvent}
           </Typography>
           <Typography paragraph>
-            My Emotions:
-          </Typography>
-          {emotion.map((emo, index) => {
-            return(
-             <Typography>
-            {index + 1}.) {emo}
-           </Typography>
-            )
-          })}
-         <br/>
-          <Typography paragraph>
-            My body feels:
+            My Emotions: {props.plan.emotion}
           </Typography>
           <Typography paragraph>
-            {signal}
+            My Physical Signals: {props.plan.signal}
           </Typography>
-          <Typography paragraph>
-            My Strategies:
+          <Typography>
+            My Strategies: {props.plan.strategy}
           </Typography>
-          {strategy.map((strat, index) => {
-            return(
-             <Typography>
-            {index + 1}.) {strat}
-           </Typography>
-            )
-          })}
         </CardContent>
       </Collapse>
     </Card>
+    
   );
 }
 

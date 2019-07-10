@@ -40,27 +40,35 @@ const useStyles = makeStyles(theme => ({
 export default function OutlinedTextFields(props) {
     const classes = useStyles();
 
+    const handleClick = (strategy) => {
+     
+        props.handleStrategy(strategy)
+        alert('Your strategy has been set')
+    }
 
     const toRender = () => {
+     
         if (props.myPlans) {
-            const strategies = props.myPlans[0].strategy.split(",")
+            const someStrategies = props.myPlans[0].strategy.split(",")
+           
             return (
                 <Paper className={classes.paper}>
                     <Grid container spacing={3}>
-                        {strategies.map((strategy, index) => {
+                        {someStrategies.map((strategy) => {
                             return(
-                    <Grid item xs={3} id={index}>
-                            <Card className={classes.card}>
+                    <Grid item xs={3} id={strategy}>
+                            <Card    className={classes.card}>
                                 <CardActionArea>
                                     <CardMedia
                                         className={classes.media}
                                         image={BrainHeart1}
                                         title="BrainHeart1"
-                                        onClick={props.handleStrategy(strategy)}
+                                        value={strategy}
+                                        onClick={() => handleClick(strategy)}
                                     />
-                                    <CardContent>
+                                    <CardContent   onClick={() => handleClick(strategy)}>
                                         <Typography gutterBottom variant="h5" component="h2">
-                                            {strategy}
+                                            {strategy.toUpperCase()}
                                         </Typography>
                                       
                                     </CardContent>

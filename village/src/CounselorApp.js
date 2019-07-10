@@ -26,8 +26,9 @@ class CounselorApp extends Component {
       myChecks: "",
       oneCheck: "",
       activeView: 'Home',
-      studentPlan: "",
-      studentCheck: "",
+      studentPlans: "",
+      studentChecks: "",
+      oneStudent: "",
       auth: {
         currentUser: props.userData,
         signedIn: true
@@ -79,32 +80,31 @@ class CounselorApp extends Component {
     })
   }
 
-  handleStudentShow = (string, id) => {
-   
-    api.getStudent.getStudent(id)
+  handleStudentShow = async (string, id) => {
+    await api.getStudent.getStudent(id)
       .then(data => {
+        console.log(data)
         this.setState({
           oneStudent: data,
         })
       })
-    api.myPlans.getMyPlans(id)
-    .then(planData => {
-      this.setState({
-        studentPlan: planData
-      })
-    })
-    api.myChecks.getMyChecks(id)
-      .then(cData => {
+    await api.myPlans.getMyPlans(id)
+      .then(planData => {
+        console.log(planData)
         this.setState({
-          studentCheck: cData
+          studentPlans: planData
         })
       })
-   if (this.state.studentPlan.length > 0){
+    await api.myChecks.getMyChecks(id)
+      .then(cData => {
+        console.log(cData)
+        this.setState({
+          studentChecks: cData
+        })
+      })
     this.setState({
       activeView: string
     })
-   }
-   
   }
 
 
@@ -143,16 +143,17 @@ class CounselorApp extends Component {
         return <PlanForm
           myStudents={this.state.myStudents}
           counselorData={this.props.counselorData}
-          handleClick={this.handleClick} />;
+          handleClick={this.handleClick}
+          userData={this.props.userData} />;
       case 'checkInShow':
         return <CheckInShow
           check={this.state.oneCheck}
           handleClick={this.handleCheckClick} />;
       case 'studentShow':
         return <StudentShow
-          student={this.oneStudent}
-          studentPlans={this.state.studentPlan}
-          studentChecks={this.state.studentCheck}
+          student={this.state.oneStudent}
+          studentPlans={this.state.studentPlans}
+          studentChecks={this.state.studentChecks}
           handleCheckClick={this.handleCheckClick}
           handleClick={this.handleClick}
         />

@@ -9,6 +9,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
+  button: {
+    margin: theme.spacing(1),
+  },
+  input: {
+    display: 'none',
+  },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
@@ -88,16 +94,10 @@ export default function CenteredGrid(props) {
       />
         </Grid>
         <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Button onClick={handleSubmit}> Submit Strategies </Button>
+        <Button onClick={handleSubmit} variant="contained" color="primary" className={classes.button}>
+        Submit Strategies
+      </Button>
+         
         </Grid>
       </Grid>
     </div>

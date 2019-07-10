@@ -30,7 +30,7 @@ const [values, setValues] = React.useState({
 const handleInputChange = (event) => {
   const target = event.target.value;
   setValues({ ...values, emotions: [...values.emotions, target] });
-  props.handleEmotion(values.emotions);
+  props.handleEmotion(target);
 }
 
   return (

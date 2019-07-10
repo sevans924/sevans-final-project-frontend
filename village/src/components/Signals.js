@@ -41,7 +41,7 @@ export default function AddressForm(props) {
         // const value = target.type === 'checkbox' ? target.checked : target.value;
         // const name = target.name;
         setValues({ ...values, signal: target });
-        props.handleSignal(values.signal);
+        props.handleSignal(target);
       }
       
 

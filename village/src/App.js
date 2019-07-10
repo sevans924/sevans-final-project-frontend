@@ -197,6 +197,7 @@ class App extends Component {
                     })
                     this.renderView()
                 } else {
+                    alert('Something went wrong, please check your username and password!')
                     this.setState({
                         activeView: 'SignIn'
                     })

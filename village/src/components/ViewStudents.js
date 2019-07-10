@@ -39,7 +39,7 @@ export default function OutlinedTextFields(props) {
       return(
         <GridList className={classes.gridList} cols={2.5}>
         {props.myStudents.map(student => (
-          <GridListTile id='checkInShow' key={student.id}>
+          <GridListTile onClick={(e) => props.handleStudentShow('studentShow', student.id)} id='checkInShow' key={student.id}>
             <img src={Students} alt={student.id} />
             <GridListTileBar
               onClick={(e) => props.handleStudentShow('studentShow', student.id)}
@@ -48,11 +48,7 @@ export default function OutlinedTextFields(props) {
                 root: classes.titleBar,
                 title: classes.title,
               }}
-              actionIcon={
-                <IconButton aria-label={`star ${student.id}`} >
-                  <StarBorderIcon className={classes.title} />
-                </IconButton>
-              }
+            
             />
           </GridListTile>
         ))}
