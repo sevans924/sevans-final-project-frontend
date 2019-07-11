@@ -73,9 +73,9 @@ export default function AddressForm(props) {
     </Typography>
       <Grid
         container spacing={3}
-        direction="column"
+        direction="row"
         justify="flex-start"
-        alignItems="center"
+        alignItems="stretch"
       >
         <Grid item xs={12} sm={6}>
           <Typography variant="h6" gutterBottom>
@@ -84,38 +84,55 @@ export default function AddressForm(props) {
           <Typography variant="h6" gutterBottom>
             Now, count to 10.
       </Typography>
-          <Typography variant="h6" gutterBottom>
-            Check in with your body, how does it feel?
-      </Typography>
-      </Grid>
-          <Grid item xs={12} >
-            <FormControlLabel
-              control={<Checkbox color="secondary" name="Great" value="Great" onChange={handleInputChange} />}
-              label="Great"
-            />
-            <FormControlLabel
-              control={<Checkbox color="secondary" name="Good" value="Good" onChange={handleInputChange} />}
-              label="Good"
-            />
-            <FormControlLabel
-              control={<Checkbox color="secondary" name="Meh" value="Meh" onChange={handleInputChange} />}
-              label="Meh"
-            />
-            <FormControlLabel
-              control={<Checkbox color="secondary" name="Poor" value="Poor" onChange={handleInputChange} />}
-              label="Poor"
-            />
-            <FormControlLabel
-              control={<Checkbox color="secondary" name="Rough" value="Rough" onChange={handleInputChange} />}
-              label="Rough"
-            />
           
         </Grid>
-      </Grid>
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h6" gutterBottom>
+            Take a deep breath.
+      </Typography>
+          <Typography variant="h6" gutterBottom>
+            Now, count to 10.
+      </Typography>
+          
+        </Grid>
+        </Grid>
+        <Grid
+        container spacing={3}
+        direction="column"
+        justify="flex-start"
+        alignItems="flex-start"
+      >
+        <Typography variant="h6" gutterBottom>
+            Check in with your body, how does it feel?
+      </Typography>
+        <Grid item xs={12} >
+          <FormControlLabel
+            control={<Checkbox color="secondary" name="Great" value="Great" onChange={handleInputChange} />}
+            label="Great"
+          />
+          <FormControlLabel
+            control={<Checkbox color="secondary" name="Good" value="Good" onChange={handleInputChange} />}
+            label="Good"
+          />
+          <FormControlLabel
+            control={<Checkbox color="secondary" name="Meh" value="Meh" onChange={handleInputChange} />}
+            label="Meh"
+          />
+          <FormControlLabel
+            control={<Checkbox color="secondary" name="Poor" value="Poor" onChange={handleInputChange} />}
+            label="Poor"
+          />
+          <FormControlLabel
+            control={<Checkbox color="secondary" name="Rough" value="Rough" onChange={handleInputChange} />}
+            label="Rough"
+          />
+
+        </Grid>
+      
 
       <Grid container spacing={3}>
 
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" >
           Describe what you notice.
      </Typography>
         <Grid item xs={12}>
@@ -132,6 +149,7 @@ export default function AddressForm(props) {
             variant="outlined"
           />
         </Grid>
+      </Grid>
       </Grid>
 
 

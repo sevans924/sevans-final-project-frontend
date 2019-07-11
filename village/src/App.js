@@ -23,23 +23,25 @@ class App extends Component {
 
     constructor() {
         super()
+    let appState
+    localStorage.appState !== undefined ? appState = JSON.parse(localStorage.getItem('appState')) : appState = localStorage
         this.state = {
-            student: false,
-            parent: false,
-            counselor: false,
-            counselors: "",
-            students: "",
-            checkins: "",
-            myStudents: "",
-            myChecks: "",
-            myCounselor: "",
-            myStudent: "",
-            activeView: "SignIn",
-            auth: {
+            student: appState.student || false,
+            parent: appState.parent || false,
+            counselor: appState.counselor || false,
+            counselors: appState.counselors || "",
+            students: appState.students || "",
+            checkins: appState.checkins || "",
+            myStudents: appState.myStudents || "",
+            myChecks: appState.myChecks || "",
+            myCounselor: appState.myCounselor || "",
+            myStudent: appState.myStudent || "",
+            activeView: appState.activeView || "SignIn",
+            auth: appState.auth || {
                 currentUser: "",
                 signedIn: false
             },
-            newUser: {
+            newUser: appState.newUser || {
                 firstName: '',
                 lastName: '',
                 email: '',
@@ -51,7 +53,7 @@ class App extends Component {
 
     componentDidMount() {
         const token = localStorage.getItem("token")
-        localStorage.setItem('savedView', 'SignIn')
+        // localStorage.setItem('savedView', 'SignIn')
         if (token) {
             api.auth.getCurrentUser()
                 .then(res => this.setState({
@@ -80,21 +82,16 @@ class App extends Component {
                     counselors: counselorData
                 })
             })
-        // api.myChecks.getMyChecks()
-        //     .then(CheckData => {
-        //         this.setState({
-        //             myChecks: CheckData
-        //         })
-        //     })
-        // api.myStudents.getMyStudents()
-        //     .then(studentData => {
-        //         this.setState({
-        //             myStudents: studentData
-        //         })
-        //     })
-
 
     }
+
+
+    componentDidUpdate(prevProps, prevState) {
+        if (JSON.stringify(prevState) !== JSON.stringify(this.state)) {
+          const json = JSON.stringify(this.state);
+          localStorage.setItem("appState", json);
+        }
+      }
 
     postStudentUser = (values) => {
         api.newStudentUser.newStudentUser(values)
@@ -115,12 +112,6 @@ class App extends Component {
             .then(data => console.log(data))
     }
 
-    // postNewStudentParent = () => {
-    //     const studentVal = this.state.auth.currentUser.student_id
-    //     const parentVal = this.state.auth.currentUser.id
-    //     api.newStudentparent.postStudentParent(studentVal, parentVal)
-    // }
-
   
 
     handleLogin = () => {
@@ -128,8 +119,6 @@ class App extends Component {
             activeView: 'SignIn'
         });
     }
-
-
 
 
 
@@ -208,7 +197,7 @@ class App extends Component {
     }
 
     logout = () => {
-        console.log('this is logout')
+       
         localStorage.removeItem("token")
         this.setState({
             student: false,
@@ -239,6 +228,7 @@ class App extends Component {
                                 handleLogout={this.logout}
                                 handleLogin={this.handleLogin}
                                 userData={this.state.auth.currentUser}
+                                signedIn={this.state.auth.signedIn}
                                 counselorData={this.state.counselors}
                                 studentData={this.state.students}
                                 checkData={this.state.checkins}
@@ -258,6 +248,7 @@ class App extends Component {
                                 handleLogout={this.logout}
                                 handleLogin={this.handleLogin}
                                 userData={this.state.auth.currentUser}
+                                signedIn={this.state.auth.signedIn}
                                 counselorData={this.state.counselors}
                                 studentData={this.state.students}
                                 // checkData={this.state.myChecks}
@@ -277,6 +268,7 @@ class App extends Component {
                                 handleLogout={this.logout}
                                 handleLogin={this.handleLogin}
                                 userData={this.state.auth.currentUser}
+                                signedIn={this.state.auth.signedIn}
                             />
                         </div>
                     </React.Fragment>

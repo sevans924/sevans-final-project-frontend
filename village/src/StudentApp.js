@@ -15,20 +15,22 @@ const API_ROOT = `http://localhost:3001/api/v1`;
 
 class StudentApp extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+    let studentAppState
+    localStorage.studentAppState !== undefined ? studentAppState = JSON.parse(localStorage.getItem('studentAppState')) : studentAppState = localStorage
     this.state = {
-      myCounselor: "",
-      myChecks: "",
-      oneCheck: "",
-      activeView: "Home",
-      myPlans: "",
-      myGoals: "",
-      myStrategies: "",
-      auth: {
-        currentUser: "",
-        signedIn: false
-      },
+      myCounselor: studentAppState.myCounselor || "",
+      myChecks: studentAppState.myChecks || "",
+      oneCheck: studentAppState.oneCheck|| "",
+      activeView: studentAppState.activeView || "Home",
+      myPlans: studentAppState.myPlans || "",
+      myGoals: studentAppState.myGoals || "",
+      myStrategies: studentAppState.myStrategies || "",
+      auth: studentAppState.auth || {
+        currentUser: props.userData,
+        signedIn: props.signedIn
+      }
     }
   }
 
@@ -67,6 +69,13 @@ class StudentApp extends Component {
         })
     })
   
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (JSON.stringify(prevState) !== JSON.stringify(this.state)) {
+      const json = JSON.stringify(this.state);
+      localStorage.setItem("studentAppState", json);
+    }
   }
 
   handleNewCheck = () => {

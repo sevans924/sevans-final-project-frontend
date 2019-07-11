@@ -21,24 +21,19 @@ class CounselorApp extends Component {
 
   constructor(props) {
     super(props)
+    let counselorAppState;
+    localStorage.counselorAppState !== undefined ? counselorAppState = JSON.parse(localStorage.getItem('counselorAppState')) : counselorAppState = localStorage
     this.state = {
-      myStudents: "",
-      myChecks: "",
-      oneCheck: "",
-      activeView: 'Home',
-      studentPlans: "",
-      studentChecks: "",
-      oneStudent: "",
-      auth: {
+      myStudents: counselorAppState.myStudents || "",
+      myChecks: counselorAppState.myChecks || "",
+      oneCheck: counselorAppState.onCheck || "",
+      activeView: counselorAppState.activeView || "Home",
+      studentPlans: counselorAppState.studentPlans || "",
+      studentChecks: counselorAppState.studentChecks || "",
+      oneStudent: counselorAppState.oneStudent || "",
+      auth: counselorAppState.auth || {
         currentUser: props.userData,
-        signedIn: true
-      },
-      newUser: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        myCounselor: ''
+        signedIn: props.signedIn
       }
     }
   }
@@ -59,6 +54,13 @@ class CounselorApp extends Component {
       })
 
 
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (JSON.stringify(prevState) !== JSON.stringify(this.state)) {
+      const json = JSON.stringify(this.state);
+      localStorage.setItem("counselorAppState", json);
+    }
   }
 
   handleProfile = () => {

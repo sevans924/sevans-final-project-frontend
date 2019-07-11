@@ -18,46 +18,57 @@ class ParentApp extends Component {
 
   constructor(props) {
     super(props)
+    let parentAppState
+    localStorage.parentAppState !== undefined ? parentAppState = JSON.parse(localStorage.getItem('parentAppState')) : parentAppState = localStorage
     this.state = {
-      myStudent: "",
-      myStudentId: "",
-      oneCheck: "",
-      studentChecks: "",
-      studentPlans: "",
-      activeView: "Home",
-      auth: {
+      myStudent: parentAppState.myStudent || "",
+      myStudentId: parentAppState.myStudentId || "",
+      oneCheck: parentAppState.oneCheck || "",
+      studentChecks: parentAppState.studentChecks || "",
+      studentPlans: parentAppState.studentPlans || "",
+      activeView: parentAppState.activeView || "Home",
+      auth: parentAppState.auth || {
         currentUser: props.userData,
-      },
+        signedIn: props.signedIn
+      }
     }
   }
 
+
   componentDidMount() {
-  
+
     api.getJoin.getJoin(this.props.userData.id)
-    .then(join => {
-      this.setState({
-        myStudentId: join[0].student_id
-      })
-    api.getStudent.getStudent(join[0].student_id)
-      .then(studentData => {
+      .then(join => {
         this.setState({
-          myStudent: studentData
+          myStudentId: join[0].student_id
         })
-      })
-    api.myChecks.getMyChecks(join[0].student_id)
-      .then(CheckData => {
-          this.setState({
+        api.getStudent.getStudent(join[0].student_id)
+          .then(studentData => {
+            this.setState({
+              myStudent: studentData
+            })
+          })
+        api.myChecks.getMyChecks(join[0].student_id)
+          .then(CheckData => {
+            this.setState({
               studentChecks: CheckData
+            })
+          })
+        api.myPlans.getMyPlans(join[0].student_id)
+          .then(PlanData => {
+            this.setState({
+              studentPlans: PlanData
+            })
           })
       })
-    api.myPlans.getMyPlans(join[0].student_id)
-      .then(PlanData => {
-        this.setState({
-            studentPlans: PlanData
-        })
-    })
-  })
 
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (JSON.stringify(prevState) !== JSON.stringify(this.state)) {
+      const json = JSON.stringify(this.state);
+      localStorage.setItem("parentAppState", json);
+    }
   }
 
 
@@ -142,7 +153,7 @@ class ParentApp extends Component {
           handleClick={this.handleClick}
         />;
       case 'MyPlans':
-            return <MyPlans myPlans={this.state.studentPlans}/>
+        return <MyPlans myPlans={this.state.studentPlans} />
       case 'Profile':
         return <Profile
           userData={this.props.userData}
@@ -177,7 +188,7 @@ class ParentApp extends Component {
       </div>
     );
 
-    }
+  }
 
 
 }
