@@ -27,6 +27,7 @@ class StudentApp extends Component {
       myPlans: studentAppState.myPlans || "",
       myGoals: studentAppState.myGoals || "",
       myStrategies: studentAppState.myStrategies || "",
+      studentUser: studentAppState.studentuser || "",
       auth: studentAppState.auth || {
         currentUser: props.userData,
         signedIn: props.signedIn
@@ -46,6 +47,13 @@ class StudentApp extends Component {
         })
         )
     }
+
+    api.getStudent.getStudent(this.props.userData.id)
+    .then(studentData => {
+        this.setState({
+            studentUser: studentData
+        })
+    })
     
       api.myCounselor.getMyCounselor(this.props.userData.id)
           .then(counselorData => {
@@ -136,7 +144,7 @@ class StudentApp extends Component {
       case 'Home':
         return <StudentHome
           counselorData={this.state.counselors}
-          studentData={this.state.students}
+          studentData={this.state.studentUser}
           checkData={this.state.checkins}
           myCounselor={this.state.myCounselor}
           myChecks={this.state.myChecks}
@@ -146,14 +154,17 @@ class StudentApp extends Component {
       case 'CheckIn':
         return <CheckInForm 
         handleClick={this.handleClick} 
-        student={this.state.auth.currentUser} 
+        student={this.state.studentUser} 
         goals={this.getGoals} 
         myPlans={this.state.myPlans}
         handleHome={this.handleHome}
         myCounselor={this.state.myCounselor}
         handleNewCheck={this.handleNewCheck}/>
       case 'MyPlans':
-        return <MyPlans myPlans={this.state.myPlans}/>
+        return <MyPlans 
+        myPlans={this.state.myPlans}
+        studentName={this.state.studentUser}
+        counselorName={this.state.myCounselor.last_name}/>
       case 'Profile':
         return <Profile 
         userData={this.props.userData} 

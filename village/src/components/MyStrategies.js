@@ -49,7 +49,7 @@ export default function OutlinedTextFields(props) {
     const toRender = () => {
      
         if (props.myPlans) {
-            const someStrategies = props.myPlans[0].strategy.split(",")
+            const someStrategies = props.theStrategies.split(",")
            
             return (
                 <Paper className={classes.paper}>

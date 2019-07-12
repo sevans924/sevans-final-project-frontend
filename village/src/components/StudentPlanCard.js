@@ -16,10 +16,12 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MyPlan from './image/MyPlan.jpg'
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: 345,
+    
   },
   media: {
     height: 0,
@@ -38,9 +40,11 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     backgroundColor: red[500],
   },
+
 }));
 
 export default function RecipeReviewCard(props) {
+  console.log(props)
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -48,16 +52,26 @@ export default function RecipeReviewCard(props) {
     setExpanded(!expanded);
   }
 
+  const sText = () => {
+    return `Student: ${props.studentName.first_name} `
+  }
+
+  const cText = () => {
+    return `Counselor: Ms. ${props.counselorName}`
+
+  }
+
   return (
-    <Card className={classes.card}>
+ 
+    <Card alignItems="center" className={classes.card}>
       <CardHeader
         avatar={
           <Avatar aria-label="Recipe" className={classes.avatar}>
             P
           </Avatar>
         }
-        title='New Plan'
-        subheader={props.plan.createdAt}
+        title= {sText()}
+        subheader={cText()}
       />
       <CardMedia
         className={classes.media}
@@ -95,13 +109,13 @@ export default function RecipeReviewCard(props) {
           <Typography paragraph>
             My Emotions:
           </Typography>
-          {props.plan.emotion.split().map((emo, index) => {
+          {props.plan.emotion.split(',').map((emo, index) => {
             return(
              <Typography paragraph>
             {index + 1}.) {emo}
            </Typography>
             )
-          })}
+          })} 
          <br/>
           <Typography paragraph>
             My body feels:
@@ -112,7 +126,7 @@ export default function RecipeReviewCard(props) {
           <Typography paragraph>
             My Strategies:
           </Typography>
-          {props.plan.strategy.split().map((strat, index) => {
+          {props.plan.strategy.split(',').map((strat, index) => {
             return(
              <Typography>
             {index + 1}.) {strat}
@@ -122,61 +136,8 @@ export default function RecipeReviewCard(props) {
         </CardContent>
       </Collapse>
     </Card>
+   
   );
-
-  // return (
-  //   <Card className={classes.card}>
-  //     <CardHeader
-  //       avatar={
-  //         <Avatar aria-label="Recipe" className={classes.avatar}>
-  //           P
-  //         </Avatar>
-  //       }
-  //       title='My Plan'
-  //       subheader={props.plan.createdAt}
-  //     />
-  //     <CardMedia
-  //       className={classes.media}
-  //       image={MyPlan}
-  //       title="MyPlan"
-  //     />
-  //     <CardContent>
-  //       <Typography variant="body2" color="textSecondary" component="p">
-  //         Goal: {props.plan.goal}
-  //       </Typography>
-  //     </CardContent>
-  //     <CardActions disableSpacing>
-  //       <IconButton
-  //         className={clsx(classes.expand, {
-  //           [classes.expandOpen]: expanded,
-  //         })}
-  //         onClick={handleExpandClick}
-  //         aria-expanded={expanded}
-  //         aria-label="Show more"
-  //       >
-  //         <ExpandMoreIcon />
-  //       </IconButton>
-  //     </CardActions>
-  //     <Collapse in={expanded} timeout="auto" unmountOnExit>
-  //       <CardContent>
-  //         <Typography paragraph>Description:</Typography>
-  //         <Typography paragraph>
-  //           {props.plan.studentEvent}
-  //         </Typography>
-  //         <Typography paragraph>
-  //           My Emotions: {props.plan.emotion}
-  //         </Typography>
-  //         <Typography paragraph>
-  //           My Physical Signals: {props.plan.signal}
-  //         </Typography>
-  //         <Typography>
-  //           My Strategies: {props.plan.strategy}
-  //         </Typography>
-  //       </CardContent>
-  //     </Collapse>
-  //   </Card>
-  // );
-
   
 }
 

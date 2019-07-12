@@ -12,16 +12,29 @@ import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { NavLink, Link } from "react-router-dom"
+import Village from '../components/Village'
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    
+  },
+  bar:{
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
+    textAlign: 'center',
+  
   },
 }));
 
@@ -58,15 +71,17 @@ export default function MenuAppBar(props) {
         />
       </FormGroup>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar className={classes.bar}>
        
-          
-          <Typography variant="h6" className={classes.title} onClick={props.handleHome}>
          
-             Welcome! Please Sign In.
+          <Typography variant="h6" className={classes.title} >
          
-          </Typography>
-          {auth && (
+          <IconButton edge="start"className={classes.title} color="inherit" aria-label="Menu">
+          Village
+          </IconButton>
+         
+          </Typography> 
+          {/* {auth && (
             <div>
               <IconButton
                 aria-label="Account of current user"
@@ -96,7 +111,7 @@ export default function MenuAppBar(props) {
                 
               </Menu>
             </div>
-          )}
+          )} */}
         </Toolbar>
       </AppBar>
     </div>

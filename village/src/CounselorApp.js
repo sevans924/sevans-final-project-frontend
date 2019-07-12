@@ -110,16 +110,17 @@ class CounselorApp extends Component {
   }
 
 
-  handleCheckClick = (event, string, id) => {
+  handleCheckClick = async (event, string, id) => {
     event.preventDefault()
 
-    fetch(`${API_ROOT}/check_ins/${id}`)
+    await fetch(`${API_ROOT}/check_ins/${id}`)
       .then(res => res.json())
       .then(check => {
         this.setState({
           oneCheck: check
         })
       })
+    
     this.setState({
       activeView: string
     })
@@ -146,7 +147,7 @@ class CounselorApp extends Component {
           myStudents={this.state.myStudents}
           counselorData={this.props.counselorData}
           handleClick={this.handleClick}
-          userData={this.props.userData} />;
+          userData={this.state.auth.currentUser} />;
       case 'checkInShow':
         return <CheckInShow
           check={this.state.oneCheck}
@@ -158,6 +159,8 @@ class CounselorApp extends Component {
           studentChecks={this.state.studentChecks}
           handleCheckClick={this.handleCheckClick}
           handleClick={this.handleClick}
+          studentName={this.state.oneStudent.first_name}
+          counselorName={this.props.userData.first_name}
         />
       case 'Profile':
         return <Profile userData={this.props.userData} />;

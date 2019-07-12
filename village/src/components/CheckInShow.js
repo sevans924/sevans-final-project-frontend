@@ -71,7 +71,7 @@ export default function RecipeReviewCard(props) {
         title="CheckIn"
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant="h6" color="textSecondary" component="p">
           Goal: {props.check.goal}
         </Typography>
       </CardContent>
@@ -89,38 +89,46 @@ export default function RecipeReviewCard(props) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Description:</Typography>
-          <Typography paragraph>
+          <Typography variant="h6" gutterBottom>
+            Description
+            </Typography>
+          <Typography variant="body2" gutterBottom>
             {props.check.event}
           </Typography>
-          <Typography paragraph>
-            My Emotions: 
+          <Typography variant="h6" gutterBottom>
+            Emotions
           </Typography>
-          <Typography paragraph>
-           {props.check.emotion}
+          {props.check.emotion.split(',').map((emo, index) => {
+            return(
+             <Typography variant="body2" gutterBottom>
+            {index + 1}.) {emo}
+           </Typography>
+            )
+          })}
+         <br/>
+         
+          <Typography variant="h6" gutterBottom>
+            Physical Signals 
           </Typography>
-          <Typography paragraph>
-            My Physical Signals: 
-          </Typography>
-          <Typography paragraph>
+          <Typography variant="body2" gutterBottom>
             {props.check.signal}
           </Typography>
-          <Typography>
-            My Physical Reflection: 
+          <Typography variant="h6" gutterBottom>
+            Physical Reflection 
           </Typography>
-          <Typography>
+          <Typography variant="body2" gutterBottom>
             {props.check.signal_reflection}
           </Typography>
-          <Typography>
-            My Strategies: 
+          <Typography variant="h6" gutterBottom>
+            I tried.... 
           </Typography>
-          <Typography>
+          <Typography variant="body2" gutterBottom>
             {props.check.strategy}
           </Typography>
-          <Typography>
-            My Reflection:
+          <Typography variant="h6" gutterBottom>
+            Reflection
           </Typography>
-          <Typography>
+          <Typography variant="body2" gutterBottom>
           {props.check.reflection}
           </Typography>
         </CardContent>

@@ -4,6 +4,7 @@ import GridList from '@material-ui/core/GridList';
 import StudentPlanCard from './StudentPlanCard'
 
 
+
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
@@ -19,6 +20,7 @@ const useStyles = makeStyles(theme => ({
   menu: {
     width: 200,
   },
+ 
 }));
 
 
@@ -30,9 +32,15 @@ export default function OutlinedTextFields(props) {
   const toRender = () => {
     if (props.myPlans) {
       return(
-        <GridList className={classes.gridList} cols={2.5}>
+        
+        <GridList className={classes.gridList} cols={2.5} >
         {props.myPlans.map(plan => (
-        <StudentPlanCard plan={plan}/>
+        
+        <StudentPlanCard 
+        plan={plan} 
+        studentName={props.studentName} 
+        counselorName={props.counselorName}/>
+       
         ))}
       </GridList>
       )

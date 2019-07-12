@@ -22,6 +22,7 @@ class ParentApp extends Component {
     localStorage.parentAppState !== undefined ? parentAppState = JSON.parse(localStorage.getItem('parentAppState')) : parentAppState = localStorage
     this.state = {
       myStudent: parentAppState.myStudent || "",
+      myCounselor: parentAppState.myCounselor || "",
       myStudentId: parentAppState.myStudentId || "",
       oneCheck: parentAppState.oneCheck || "",
       studentChecks: parentAppState.studentChecks || "",
@@ -47,6 +48,12 @@ class ParentApp extends Component {
             this.setState({
               myStudent: studentData
             })
+          })
+          api.myCounselor.getMyCounselor(join[0].student_id)
+          .then(counselorData => {
+              this.setState({
+                  myCounselor: counselorData[0]
+              })
           })
         api.myChecks.getMyChecks(join[0].student_id)
           .then(CheckData => {
@@ -92,39 +99,13 @@ class ParentApp extends Component {
     })
   }
 
-  // handleStudentShow = (string, id) => {
-
-  //   api.getStudent.getStudent(id)
-  //     .then(data => {
-  //       this.setState({
-  //         oneStudent: data,
-  //       })
-  //     })
-  //   api.myPlans.getMyPlans(id)
-  //     .then(planData => {
-  //       this.setState({
-  //         studentPlan: planData
-  //       })
-  //     })
-  //   api.myChecks.getMyChecks(id)
-  //     .then(cData => {
-  //       this.setState({
-  //         studentCheck: cData
-  //       })
-  //     })
-  //   if (this.state.studentPlan.length > 0) {
-  //     this.setState({
-  //       activeView: string
-  //     })
-  //   }
-
-  // }
 
 
-  handleCheckClick = (event, string, id) => {
+
+  handleCheckClick = async (event, string, id) => {
     event.preventDefault()
-
-    fetch(`${API_ROOT}/check_ins/${id}`)
+    
+   await fetch(`${API_ROOT}/check_ins/${id}`)
       .then(res => res.json())
       .then(check => {
         this.setState({
@@ -153,7 +134,11 @@ class ParentApp extends Component {
           handleClick={this.handleClick}
         />;
       case 'MyPlans':
-        return <MyPlans myPlans={this.state.studentPlans} />
+        return <MyPlans 
+        myPlans={this.state.studentPlans} 
+        studentName={this.state.myStudent}
+        counselorName={this.state.myCounselor.last_name}
+        />
       case 'Profile':
         return <Profile
           userData={this.props.userData}

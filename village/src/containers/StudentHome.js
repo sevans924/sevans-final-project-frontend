@@ -2,10 +2,10 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import StudentScroll from '../components/StudentScroll'
-import MyPlanButton from '../components/MyPlanButton'
+import StudentScroll from '../components/Scroll/StudentScroll'
+import MyPlanButton from '../components/Buttons/MyPlanButton'
 import Typography from '@material-ui/core/Typography';
-import NewCheckButton from '../components/NewCheckButton'
+import NewCheckButton from '../components/Buttons/NewCheckButton'
 
 
 
@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     maxWidth: 900,
   },
+  text: {
+    color: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
+  }
 }));
 
 export default function CenteredGrid(props) {
@@ -40,7 +43,7 @@ export default function CenteredGrid(props) {
         </Grid>
         <p />
 
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography gutterBottom variant="h5" component="h2" className={classes.text}>
           My Check-Ins
           </Typography>
         <p />

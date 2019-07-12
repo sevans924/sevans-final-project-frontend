@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import StudentScroll from '../components/StudentScroll'
+import StudentScroll from '../components/Scroll/StudentScroll'
 import Typography from '@material-ui/core/Typography';
 import StudentPlanCard from '../components/StudentPlanCard'
 import GridList from '@material-ui/core/GridList';
@@ -26,14 +26,14 @@ export default function CenteredGrid(props) {
 
 
     return (
-
+ 
         <Paper className={classes.paper}>
             <Typography gutterBottom variant="h5" component="h2">
                 Plans
         </Typography>
             <GridList className={classes.gridList} cols={2.5}>
                 { props.studentPlans.map(plan => (
-                    <StudentPlanCard plan={plan} />
+                    <StudentPlanCard plan={plan} studentName={props.studentName} counselorName={props.counselorName}/>
                 ))}
             </GridList>
             <p />

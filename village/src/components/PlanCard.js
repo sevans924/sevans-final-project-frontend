@@ -56,8 +56,8 @@ export default function RecipeReviewCard({ goal, signal, studentEvent, emotion, 
             P
           </Avatar>
         }
-        title='New Plan'
-        subheader={createdAt}
+        title={studentName}
+        subheader={counselorName}
       />
       <CardMedia
         className={classes.media}

@@ -2,12 +2,12 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import StudentScroll from '../components/StudentScroll'
+import StudentScroll from '../components/Scroll/StudentScroll'
 import Typography from '@material-ui/core/Typography';
 import StudentPlanCard from '../components/StudentPlanCard'
 import GridList from '@material-ui/core/GridList';
 import Button from '@material-ui/core/Button';
-import MyPlanButton from '../components/MyPlanButton'
+import MyPlanButton from '../components/Buttons/MyPlanButton'
 
 
 

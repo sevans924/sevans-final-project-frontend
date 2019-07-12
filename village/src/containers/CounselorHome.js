@@ -6,9 +6,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import CounselorScroll from '../components/CounselorScroll'
-import CreateNewPlan from '../components/CreateNewPlan'
-import ViewStudentsButton from '../components/ViewStudentsButton'
+import CounselorScroll from '../components/Scroll/CounselorScroll'
+import CreateNewPlan from '../components/Buttons/CreateNewPlan'
+import ViewStudentsButton from '../components/Buttons/ViewStudentsButton'
 import ViewStudents from '../components/ViewStudents'
 import PlanForm from './PlanForm'
 import CheckInShow from '../components/CheckInShow'

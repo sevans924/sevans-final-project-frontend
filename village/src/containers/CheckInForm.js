@@ -79,6 +79,7 @@ export default function Checkout(props) {
   const [myPlan, setMyPlan] = React.useState('');
   const [goal, setGoal] = React.useState(props.getGoals);
   const [signal, setSignal] = React.useState('');
+  const [strategies, setStrategies] = React.useState('');
   const [strategyTried, setStrategyTried] = React.useState();
   const [emotion, setEmotion] = React.useState([]);
   const [studentEvent, setStudentEvent] = React.useState('');
@@ -113,8 +114,11 @@ const handleStrategy = (string) => {
 }
 
 const handleMyPlan = (plan) => {
+  console.log(plan)
+  console.log(plan.signal)
   setMyPlan(plan)
   setGoal(plan.goal)
+  setStrategies(plan.strategy)
   alert('Your plan is set!')
 }
 
@@ -178,11 +182,11 @@ const getStepContent = (step) => {
     case 4:
       return <MyStrategies 
       handleStrategy={handleStrategy} 
-      myPlans={props.myPlans}/>;
+      theStrategies={strategies}/>;
     case 5: 
       return <Reflect
       goal={goal} 
-      strategy={strategyTried} 
+      strategyTried={strategyTried} 
       studentEvent={studentEvent} 
       signal={signal} 
       emotion={emotion} 
@@ -212,11 +216,7 @@ const getStepContent = (step) => {
     <React.Fragment>
       <CssBaseline />
       <AppBar position="absolute" color="default" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Check In!
-          </Typography>
-        </Toolbar>
+        
       </AppBar>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
